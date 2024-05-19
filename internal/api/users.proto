@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+option go_package = "github.com/kefniark/go-web-server/gen/api";
+
+message UserData {
+    string id = 1;
+    string name = 2;
+    string bio = 3;
+}
+
+message UserEmptyResponse {}
+
+message UserSetRequest {
+    optional string id = 1;
+    string name = 2;
+    string bio = 3;
+}
+
+message UserGetRequest {
+    string id = 1;
+}
+
+message UserSearchRequest {
+    optional int64 limit = 1;
+    optional int64 offset = 2;
+}
+
+message UserSearchResponse {
+    repeated UserData users = 1;
+    int64 total = 2;
+}
+
+service Users {
+    // Create or Update User
+    rpc set(UserSetRequest) returns (UserData) {}
+    
+    // Delete a User
+    rpc delete(UserGetRequest) returns (UserEmptyResponse) {}
+    
+    // Get a User by Id
+    rpc get(UserGetRequest) returns (UserData) {}
+
+    // List multiple Users (filter, paginate)
+    rpc search(UserSearchRequest) returns (UserSearchResponse) {}
+}
