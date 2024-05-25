@@ -9,15 +9,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: "write"
+      contents: "read"
     steps:
       - uses: actions/checkout@v4
       - uses: bufbuild/buf-setup-action@v1
         with:
           version: "1.32.1"
-      - uses: cachix/install-nix-action@v26
-      - uses: cachix/cachix-action@v15
-        with:
-          name: devenv
+      - uses: cachix/install-nix-action@v27
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: build the project
@@ -25,15 +26,16 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
+    permissions:
+      id-token: "write"
+      contents: "read"
     steps:
       - uses: actions/checkout@v4
       - uses: bufbuild/buf-setup-action@v1
         with:
           version: "1.32.1"
-      - uses: cachix/install-nix-action@v26
-      - uses: cachix/cachix-action@v15
-        with:
-          name: devenv
+      - uses: cachix/install-nix-action@v27
+      - uses: DeterminateSystems/magic-nix-cache-action@main
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: Lint the project
