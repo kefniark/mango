@@ -71,23 +71,6 @@ linters-settings:
       underef:
         skipRecvDeref: false
 
-  gomodguard:
-    blocked:
-      # List of blocked modules.
-      modules:
-        - github.com/golang/protobuf:
-            recommendations:
-              - google.golang.org/protobuf
-            reason: "see https://developers.google.com/protocol-buffers/docs/reference/go/faq#modules"
-        - github.com/satori/go.uuid:
-            recommendations:
-              - github.com/google/uuid
-            reason: "satori's package is not maintained"
-        - github.com/gofrs/uuid:
-            recommendations:
-              - github.com/gofrs/uuid/v5
-            reason: "gofrs' package was not go module before v5"
-
   govet:
     # Enable all analyzers.
     enable-all: true
@@ -104,7 +87,7 @@ linters-settings:
   lll:
     # Max line length, lines longer will be reported.
     # '\t' is counted as 1 character by default, and can be changed with the tab-width option.
-    line-length: 140
+    line-length: 160
 
   mnd:
     # List of function patterns to exclude from analysis.

@@ -6,6 +6,12 @@ clean:
 install-dev:
     #!/usr/bin/env sh
 
+    # Dev CLI to auto-reload
+    go install github.com/cosmtrek/air@latest
+
+    # Dev CLI to concat protobuf files
+    go install github.com/syumai/protocat/cmd/protocat
+
     # Sqlc - Database Code Generation
     go install github.com/sqlc-dev/sqlc/cmd/sqlc@latest
 
@@ -24,7 +30,7 @@ gomod:
     go mod tidy
 
 dev:
-    go run cmd/server/main.go
+    air
 
 format:
     golangci-lint run ./... --fix
@@ -41,16 +47,16 @@ generate-proto:
     #!/usr/bin/env sh
 
     mkdir -p ./gen/api
-    protoc --experimental_allow_proto3_optional -I ./internal/api \
+    
+    # Merge All proto file in a single api.proto
+    PROTO_FILES=$(find ./internal/api -name '*.proto' -printf '%p ')
+    protocat $PROTO_FILES > gen/api/api.proto
+    echo 'option go_package = "github.com/kefniark/go-web-server/gen/api";' >> gen/api/api.proto
+    
+    # Auto-generate GRPC/Client code based on api.proto
+    protoc --experimental_allow_proto3_optional -I ./gen/api \
         --go_out=./gen/api --go_opt paths=source_relative \
         --go-grpc_out=./gen/api --go-grpc_opt paths=source_relative \
         --connect-go_out=./gen/api --connect-go_opt paths=source_relative \
         --connect-openapi_out=./gen/api --connect-openapi_opt=base=base.openapi.yaml \
-        ./internal/**/*.proto
-
-    # --openapiv2_out ./gen/api --openapiv2_opt generate_unbound_methods=true \
-    # --grpc-gateway_out=./gen/gw --grpc-gateway_opt paths=source_relative \
-    # --grpc-gateway_opt generate_unbound_methods=true \
-    # --grpc-gateway_opt grpc_api_configuration=./internal/api/config.yaml \
-    # --grpc-gateway_opt standalone=true \
-        
+        api.proto

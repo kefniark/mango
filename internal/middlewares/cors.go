@@ -5,15 +5,16 @@ import (
 
 	connectcors "connectrpc.com/cors"
 	"github.com/rs/cors"
-	"github.com/rs/zerolog"
+
+	"github.com/kefniark/go-web-server/internal/core"
 )
 
 const maxAgeCors = 7200 // 2 hours in seconds
 
 // HTTP Middleware to handle CORS
 // ref: https://github.com/connectrpc/cors-go
-func CORS(logger *zerolog.Logger) func(handler http.Handler) http.Handler {
-	logger.Debug().Msg("Adding CORS middleware")
+func CORS(options *core.ServerOptions) func(handler http.Handler) http.Handler {
+	options.Logger.Debug().Msg("Adding CORS middleware")
 
 	return func(connectHandler http.Handler) http.Handler {
 		c := cors.New(cors.Options{

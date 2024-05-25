@@ -11,7 +11,7 @@ Features:
 * HTML Endpoints based on [Templ](https://github.com/a-h/templ)
 * Database Access based on [SQLC](https://github.com/sqlc-dev/sqlc) (Support sqlite, postgres, mysql)
 * Dev Tools:
-  * Live-Reload
+  * Live-Reload with [Air](https://github.com/cosmtrek/air)
   * Linting & Golang Good practice with [Golangci-lint](https://github.com/golangci/golangci-lint)
 
 ## TODO
