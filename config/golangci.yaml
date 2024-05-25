@@ -14,6 +14,7 @@ linters-settings:
     # Such cases aren't reported by default.
     # Default: false
     check-type-assertions: true
+    ignore: ""
 
   exhaustive:
     # Program elements to check for exhaustiveness.
