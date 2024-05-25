@@ -46,6 +46,7 @@ devenv shell # Open a shell with all necessary dev tools
 ### Step 3. Dev Commands
 
 - `dev`: Start the server in development mode
+- `build`: Create Binary Package `./dist`
 - `format`: Use Golangci-lint to auto-fix as much code as possible
 - `lint`: Run Golangci-lint
 - `generate`: Run all the code generators

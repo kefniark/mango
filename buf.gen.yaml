@@ -17,4 +17,4 @@ plugins:
   - local: protoc-gen-connect-openapi
     out: gen/api
     strategy: all
-    opt: base=config/base.openapi.yaml,content-types=json,path=api.openapi.yaml
+    opt: base=config/openapi.yaml,content-types=json,path=api.openapi.yaml

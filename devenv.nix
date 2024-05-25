@@ -51,7 +51,7 @@
 
   scripts.format.exec = ''
     golangci-lint run ./... --fix --config config/golangci.yaml
-    sqlc vet
+    sqlc vet -f config/sqlc.yaml
     prettier "**/*.{json,yaml,md}" --write
   '';
 
