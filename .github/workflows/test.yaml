@@ -15,7 +15,7 @@ jobs:
         with:
           version: "1.32.1"
       - uses: cachix/install-nix-action@v26
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
@@ -31,7 +31,7 @@ jobs:
         with:
           version: "1.32.1"
       - uses: cachix/install-nix-action@v26
-      - uses: cachix/cachix-action@v14
+      - uses: cachix/cachix-action@v15
         with:
           name: devenv
       - name: Install devenv.sh
