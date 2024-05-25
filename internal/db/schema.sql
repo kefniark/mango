@@ -14,5 +14,9 @@ CREATE TABLE products (
 
 CREATE TABLE orders (
   id   string  PRIMARY KEY,
-  name text    NOT NULL
+  name text    NOT NULL,
+  user_id string,
+  product_id string,
+  FOREIGN KEY(user_id) REFERENCES users(id),
+  FOREIGN KEY(product_id) REFERENCES products(id)
 );

@@ -1,12 +1,15 @@
 syntax = "proto3";
 
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/kefniark/go-web-server/gen/api";
+
 message UserData {
     string id = 1;
     string name = 2;
     string bio = 3;
 }
-
-message UserEmptyResponse {}
 
 message UserSetRequest {
     optional string id = 1;
@@ -19,8 +22,8 @@ message UserGetRequest {
 }
 
 message UserSearchRequest {
-    optional int64 limit = 1;
-    optional int64 offset = 2;
+    int64 limit = 1;
+    int64 offset = 2;
 }
 
 message UserSearchResponse {
@@ -33,10 +36,13 @@ service Users {
     rpc set(UserSetRequest) returns (UserData) {}
     
     // Delete a User
-    rpc delete(UserGetRequest) returns (UserEmptyResponse) {}
+    rpc delete(UserGetRequest) returns (google.protobuf.Empty) {}
     
     // Get a User by Id
-    rpc get(UserGetRequest) returns (UserData) {}
+    rpc get(UserGetRequest) returns (UserData) {
+        // option (google.api.http).get = "/users/{user_id}";
+        option idempotency_level = NO_SIDE_EFFECTS;
+    }
 
     // List multiple Users (filter, paginate)
     rpc search(UserSearchRequest) returns (UserSearchResponse) {}

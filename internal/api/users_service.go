@@ -1,16 +1,15 @@
-package users
+package api
 
 import (
 	"context"
-	"fmt"
 
-	"connectrpc.com/authn"
 	"connectrpc.com/connect"
 	"github.com/kefniark/go-web-server/gen/api"
 	"github.com/kefniark/go-web-server/gen/db"
 	"github.com/kefniark/go-web-server/internal/core"
 	"github.com/moroz/uuidv7-go"
 	"github.com/rs/zerolog"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type UserService struct {
@@ -62,8 +61,8 @@ func (service *UserService) Set(ctx context.Context, req *connect.Request[api.Us
 	}
 
 	// get and use User from Auth Middleware
-	userInfo, _ := authn.GetInfo(ctx).(core.AuthInfo)
-	fmt.Println("Set User", userInfo)
+	// userInfo, _ := authn.GetInfo(ctx).(core.AuthInfo)
+	// fmt.Println("Set User", userInfo)
 
 	user, err := service.db.SetUser(ctx, db.SetUserParams{
 		ID:   id,
@@ -79,7 +78,7 @@ func (service *UserService) Set(ctx context.Context, req *connect.Request[api.Us
 }
 
 // Delete a User.
-func (service *UserService) Delete(ctx context.Context, req *connect.Request[api.UserGetRequest]) (*connect.Response[api.UserEmptyResponse], error) {
+func (service *UserService) Delete(ctx context.Context, req *connect.Request[api.UserGetRequest]) (*connect.Response[emptypb.Empty], error) {
 	err := service.db.DeleteUser(ctx, req.Msg.GetId())
 	return nil, err
 }

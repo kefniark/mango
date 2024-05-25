@@ -1,6 +1,9 @@
 syntax = "proto3";
 
-message ProductEmptyResponse {}
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/kefniark/go-web-server/gen/api";
 
 message ProductData {
     string id = 1;
@@ -31,7 +34,7 @@ service Products {
     rpc set(ProductSetRequest) returns (ProductData) {}
         
     // Delete a Product
-    rpc delete(ProductGetRequest) returns (ProductEmptyResponse) {}
+    rpc delete(ProductGetRequest) returns (google.protobuf.Empty) {}
     
     // Get a Product by Id
     rpc get(ProductGetRequest) returns (ProductData) {}

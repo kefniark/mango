@@ -1,4 +1,4 @@
-package products
+package api
 
 import (
 	"context"
@@ -10,6 +10,7 @@ import (
 	"github.com/kefniark/go-web-server/internal/core"
 	"github.com/moroz/uuidv7-go"
 	"github.com/rs/zerolog"
+	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type ProductService struct {
@@ -62,6 +63,6 @@ func (service *ProductService) Search(
 	return nil, errors.New("ProductService.delete is not implemented")
 }
 
-func (service *ProductService) Delete(ctx context.Context, req *connect.Request[api.ProductGetRequest]) (*connect.Response[api.ProductEmptyResponse], error) {
+func (service *ProductService) Delete(ctx context.Context, req *connect.Request[api.ProductGetRequest]) (*connect.Response[emptypb.Empty], error) {
 	return nil, errors.New("ProductService.delete is not implemented")
 }
