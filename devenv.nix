@@ -39,7 +39,7 @@
   '';
 
   scripts.start.exec = ''
-    air
+    air -c ./config/air.toml
   '';
 
   scripts.build.exec = ''
@@ -50,13 +50,13 @@
   '';
 
   scripts.format.exec = ''
-    golangci-lint run ./... --fix --config config/.golangci.yaml
+    golangci-lint run ./... --fix --config config/golangci.yaml
     sqlc vet
     prettier "**/*.{json,yaml,md}" --write
   '';
 
   scripts.lint.exec = ''
-    golangci-lint run ./...  --config config/.golangci.yaml
+    golangci-lint run ./...  --config config/golangci.yaml
     prettier "**/*.{json,yaml,md}" --check
   '';
 
