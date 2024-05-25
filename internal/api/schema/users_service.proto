@@ -5,6 +5,20 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/kefniark/go-web-server/gen/api";
 
+service Users {
+    // Create or Update User
+    rpc set(UserSetRequest) returns (UserData) {}
+    
+    // Delete a User
+    rpc delete(UserGetRequest) returns (google.protobuf.Empty) {}
+    
+    // Get a User by Id
+    rpc get(UserGetRequest) returns (UserData) {}
+
+    // List multiple Users (filter, paginate)
+    rpc search(UserSearchRequest) returns (UserSearchResponse) {}
+}
+
 message UserData {
     string id = 1;
     string name = 2;
@@ -29,21 +43,4 @@ message UserSearchRequest {
 message UserSearchResponse {
     repeated UserData users = 1;
     int64 total = 2;
-}
-
-service Users {
-    // Create or Update User
-    rpc set(UserSetRequest) returns (UserData) {}
-    
-    // Delete a User
-    rpc delete(UserGetRequest) returns (google.protobuf.Empty) {}
-    
-    // Get a User by Id
-    rpc get(UserGetRequest) returns (UserData) {
-        // option (google.api.http).get = "/users/{user_id}";
-        option idempotency_level = NO_SIDE_EFFECTS;
-    }
-
-    // List multiple Users (filter, paginate)
-    rpc search(UserSearchRequest) returns (UserSearchResponse) {}
 }

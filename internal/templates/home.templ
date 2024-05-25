@@ -1,0 +1,30 @@
+package templates
+
+// Ordinary Go code that we can use in our Component.
+var greeting = "Welcome!"
+
+// templ Component
+templ headerTemplate(name string) {
+  <header>
+    <h1 class="text-xl font-extrabold uppercase">{ name }</h1>
+    <h2 class="text-lg font-bold">"{ greeting }" comes from ordinary Go code</h2>
+  </header>
+}
+
+templ Home(name string) {
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <link rel="stylesheet" href="/assets/css/index.css"></link>
+      <title>Bootstrap demo</title>
+    </head>
+    <body class="p-6 grid gap-4 bg-slate-200">
+      @headerTemplate(name)
+      <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
+
+      <img src="/assets/logo.png" class="m-auto max-w-[100%]" />
+    </body>
+  </html>
+}

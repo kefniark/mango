@@ -8,8 +8,9 @@ The goal is to get a versatile base, which can be reused for a variety of projec
 **Features**:
 
 - Multi Usage Server:
-  - API Endpoints based on [Connect](https://connectrpc.com/) (Support GRPC, Rest, OpenAPI, Subscriptions, ...)
+  - API Endpoints based on [Connect](https://connectrpc.com/) (Support GRPC, Rest, OpenAPI, Swagger, ...)
   - HTML Endpoints based on [Templ](https://github.com/a-h/templ)
+  - CSS based on [Tailwind](https://tailwindcss.com/)
   - Database Access based on [SQLC](https://github.com/sqlc-dev/sqlc) (Support sqlite, postgres, mysql)
 - Dev Experience:
   - Dev Environment based on [Devenv](https://devenv.sh/) (Nix + Devcontainer)
@@ -23,9 +24,9 @@ The goal is to get a versatile base, which can be reused for a variety of projec
 
 - [x] Support Nix/Devenv
 - [x] Support .env
-- [ ] Web UI (HTMX/Templ)
-- [ ] Background Task (queue)
+- [x] Web UI (HTMX/Templ)
 - [x] Handle assets/public folder
+- [ ] Background Task (queue)
 - [ ] Doc generation
 - [ ] Tests / 2e2
 - [ ] Distribution (auto build docker images / binaries)

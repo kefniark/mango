@@ -1,5 +1,15 @@
 package core
 
+import (
+	dbClient "github.com/kefniark/go-web-server/gen/db"
+	"github.com/rs/zerolog"
+)
+
+type ServerOptions struct {
+	Logger *zerolog.Logger
+	DB     *dbClient.Queries
+}
+
 // Result of the Auth Middleware
 // If the user is known, pass it to the rest of the system through context
 

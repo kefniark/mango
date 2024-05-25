@@ -3,12 +3,12 @@ module github.com/kefniark/go-web-server
 go 1.22.1
 
 require (
-	connectrpc.com/authn v0.1.0
 	connectrpc.com/connect v1.16.2
-	connectrpc.com/cors v0.1.0
+	github.com/a-h/templ v0.2.707
+	github.com/go-chi/chi/v5 v5.0.12
+	github.com/go-chi/cors v1.2.1
 	github.com/mattn/go-sqlite3 v1.14.22
 	github.com/moroz/uuidv7-go v0.0.0-20240305042206-a7e3dca2a87e
-	github.com/rs/cors v1.11.0
 	github.com/rs/zerolog v1.32.0
 	golang.org/x/net v0.25.0
 	google.golang.org/genproto/googleapis/api v0.0.0-20240318140521-94a12d6c2237
@@ -23,7 +23,7 @@ require (
 	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
 	github.com/lmittmann/tint v1.0.4 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
-	github.com/mattn/go-isatty v0.0.19 // indirect
+	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/sudorandom/protoc-gen-connect-openapi v0.7.2 // indirect
 	github.com/swaggest/jsonschema-go v0.3.66 // indirect
 	github.com/swaggest/openapi-go v0.2.49 // indirect

@@ -4,4 +4,4 @@ info:
   description: "This is my API"
   version: "1.0"
 servers:
-  - url: http://localhost:8081/
+  - url: http://localhost:5500/api/

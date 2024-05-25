@@ -3,20 +3,28 @@ package internal
 import (
 	"net/http"
 
-	"connectrpc.com/connect"
+	"github.com/a-h/templ"
+	"github.com/go-chi/chi/v5"
 	"github.com/kefniark/go-web-server/gen/api/apiconnect"
-	api "github.com/kefniark/go-web-server/internal/api"
-
+	"github.com/kefniark/go-web-server/internal/api"
 	"github.com/kefniark/go-web-server/internal/core"
-	"github.com/kefniark/go-web-server/internal/middlewares"
+	"github.com/kefniark/go-web-server/internal/templates"
 )
 
-func registerAPIRoutes(mux *http.ServeMux, options *core.ServerOptions) {
-	interceptors := connect.WithInterceptors(middlewares.WithDevLogInterceptor(options))
+func registerAPIRoutes(r *chi.Mux, options *core.ServerOptions) {
+	r.Route("/api", func(r chi.Router) {
+		path, handler := apiconnect.NewUsersHandler(api.NewUserService(options))
+		r.Mount(path, http.StripPrefix("/api", handler))
 
-	path, handler := apiconnect.NewUsersHandler(api.NewUserService(options), interceptors)
-	mux.Handle(path, handler)
+		path, handler = apiconnect.NewProductsHandler(api.NewProductService(options))
+		r.Mount(path, http.StripPrefix("/api", handler))
+	})
+}
 
-	path, handler = apiconnect.NewProductsHandler(api.NewProductService(options), interceptors)
-	mux.Handle(path, handler)
+func registerStaticFilesRoutes(r *chi.Mux) {
+	r.Handle("/assets/*", http.StripPrefix("/assets", http.FileServer(http.Dir("./assets"))))
+}
+
+func registerPageRoutes(r *chi.Mux, _ *core.ServerOptions) {
+	r.Get("/", templ.Handler(templates.Home("john")).ServeHTTP)
 }

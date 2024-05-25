@@ -21,6 +21,12 @@
     pkgs.sqlc
     pkgs.air
 
+    # Templ
+    pkgs.templ
+
+    # TailwindCSS
+    pkgs.tailwindcss
+
     # Linters
     pkgs.nodePackages.prettier
   ];
@@ -34,8 +40,8 @@
 
   scripts.install-deps.exec = ''
     go mod download
-    go get "github.com/sudorandom/protoc-gen-connect-openapi"
-    go install "github.com/sudorandom/protoc-gen-connect-openapi"
+    go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
+    go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
   '';
 
   scripts.start.exec = ''
@@ -61,8 +67,11 @@
   '';
 
   scripts.generate.exec = ''
-    generate-sql
-    generate-proto
+    generate-sql &
+    generate-proto &
+    generate-templ &
+    generate-tailwind &
+    wait
   '';
 
   scripts.generate-sql.exec = ''
@@ -76,6 +85,14 @@
     # Auto-generate GRPC/Client code based on api.proto
     $BUF_CMD dep update
     $BUF_CMD generate
+  '';
+
+  scripts.generate-templ.exec = ''
+    templ generate
+  '';
+
+  scripts.generate-tailwind.exec = ''
+    tailwindcss -i ./config/tailwind.css -o ./assets/css/index.css
   '';
 
   enterShell = ''

@@ -7,9 +7,9 @@ import (
 	"os"
 	"time"
 
+	"github.com/go-chi/chi/v5"
 	dbClient "github.com/kefniark/go-web-server/gen/db"
 	"github.com/kefniark/go-web-server/internal/core"
-	"github.com/kefniark/go-web-server/internal/middlewares"
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
@@ -21,7 +21,7 @@ import (
 	_ "github.com/mattn/go-sqlite3"
 )
 
-const addr = "localhost:5550"
+const addr = ":5550"
 const defaultTimeout = 5 * time.Second
 
 func NewServer() {
@@ -29,27 +29,21 @@ func NewServer() {
 	logger := options.Logger
 	logger.Debug().Msg("Initialize Server")
 
-	// middlewares (http) & interceptors (connect)
-	middlewareProvider := middlewares.NewMiddlewareProvider()
-	middlewareProvider.Add(middlewares.CORS(options))
-	middlewareProvider.Add(middlewares.Auth(options))
-
-	// create router
-	mux := http.NewServeMux()
-	registerAPIRoutes(mux, options)
+	// Router
+	r := chi.NewRouter()
+	registerMiddlewares(r)
+	registerAPIRoutes(r, options)
+	registerStaticFilesRoutes(r)
+	registerPageRoutes(r, options)
 
 	// HTTP listen and serve
+	logger.Info().Msgf("Listening on %s", addr)
 	server := &http.Server{
 		Addr:              addr,
 		ReadHeaderTimeout: defaultTimeout,
-		Handler:           middlewareProvider.Apply(h2c.NewHandler(mux, &http2.Server{})),
+		Handler:           h2c.NewHandler(r, &http2.Server{}),
 	}
 
-	// Static Files
-	mux.Handle("/", http.FileServer(http.Dir("./static")))
-	logger.Info().Msg("Serving static files on /")
-
-	logger.Info().Msgf("Listening on %s", addr)
 	if err := server.ListenAndServe(); err != nil {
 		logger.Panic().Err(err).Msgf("Cannot start server and listen on %s", addr)
 	}
@@ -66,10 +60,7 @@ func newServerOptions() *core.ServerOptions {
 		logger.Panic().Err(err).Msg("Cannot initialize Database connection")
 	}
 
-	return &core.ServerOptions{
-		Logger: logger,
-		DB:     db,
-	}
+	return &core.ServerOptions{Logger: logger, DB: db}
 }
 
 func newDatabase(logger *zerolog.Logger) (*dbClient.Queries, error) {

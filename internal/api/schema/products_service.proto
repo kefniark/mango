@@ -5,6 +5,20 @@ import "google/protobuf/empty.proto";
 
 option go_package = "github.com/kefniark/go-web-server/gen/api";
 
+service Products {
+    // Create or Update Product
+    rpc set(ProductSetRequest) returns (ProductData) {}
+        
+    // Delete a Product
+    rpc delete(ProductGetRequest) returns (google.protobuf.Empty) {}
+    
+    // Get a Product by Id
+    rpc get(ProductGetRequest) returns (ProductData) {}
+
+    // List multiple Products (filter, paginate)
+    rpc search(ProductSearchRequest) returns (ProductSearchResponse) {}
+}
+
 message ProductData {
     string id = 1;
     string name = 2;
@@ -27,18 +41,4 @@ message ProductSearchRequest {
 message ProductSearchResponse {
     repeated ProductData products = 1;
     int64 total = 2;
-}
-
-service Products {
-    // Create or Update Product
-    rpc set(ProductSetRequest) returns (ProductData) {}
-        
-    // Delete a Product
-    rpc delete(ProductGetRequest) returns (google.protobuf.Empty) {}
-    
-    // Get a Product by Id
-    rpc get(ProductGetRequest) returns (ProductData) {}
-
-    // List multiple Products (filter, paginate)
-    rpc search(ProductSearchRequest) returns (ProductSearchResponse) {}
 }

@@ -23,15 +23,24 @@ go.work
 go.work.sum
 
 # Generated files
+.vscode/
 gen/
 bin/
 dist/
-tmp/# Devenv
+tmp/
+
+# Devenv
 .devenv*
 devenv.local.nix
 
 # direnv
 .direnv
 
+# template
+*_templ.go
+
 # pre-commit
 .pre-commit-config.yaml
+
+# tailwind auto-generated
+assets/css/index.css
