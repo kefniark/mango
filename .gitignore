@@ -13,6 +13,7 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+*.db
 
 # Dependency directories (remove the comment below to include it)
 vendor/
@@ -25,4 +26,12 @@ go.work.sum
 gen/
 bin/
 dist/
-tmp/
+tmp/# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml

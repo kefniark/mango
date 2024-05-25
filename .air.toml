@@ -4,10 +4,10 @@ tmp_dir = "gen/bin"
 
 [build]
   args_bin = []
-  bin = "./gen/bin/main"
-  cmd = "go build -o ./gen/bin/main cmd/server/main.go"
-  delay = 50
-  exclude_dir = ["assets", "gen", "vendor", "testdata"]
+  bin = "./gen/dev-build"
+  cmd = "go build -o ./gen/dev-build ./main.go"
+  delay = 1000
+  exclude_dir = ["static", "gen", ".devenv", "dist"]
   exclude_file = []
   exclude_regex = ["_test.go"]
   exclude_unchanged = false
