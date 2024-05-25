@@ -2,7 +2,7 @@
 
 ## Description
 
-**WIP**: Try to build a modern and full fledged Web Server in Golang.
+**WIP**: Try to build a modern, opinionated and full fledged Web Server in Golang.
 The goal is to get a versatile base, which can be reused for a variety of projects.
 
 **Features**:
@@ -10,7 +10,7 @@ The goal is to get a versatile base, which can be reused for a variety of projec
 - Multi Usage Server:
   - API Endpoints based on [Connect](https://connectrpc.com/) (Support GRPC, Rest, OpenAPI, Swagger, ...)
   - HTML Endpoints based on [Templ](https://github.com/a-h/templ)
-  - CSS based on [Tailwind](https://tailwindcss.com/)
+  - UI based on [Tailwind](https://tailwindcss.com/) / [DaisyUI]()
   - Database Access based on [SQLC](https://github.com/sqlc-dev/sqlc) (Support sqlite, postgres, mysql)
 - Dev Experience:
   - Dev Environment based on [Devenv](https://devenv.sh/) (Nix + Devcontainer)

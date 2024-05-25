@@ -8,6 +8,10 @@ templ headerTemplate(name string) {
   <header>
     <h1 class="text-xl font-extrabold uppercase">{ name }</h1>
     <h2 class="text-lg font-bold">"{ greeting }" comes from ordinary Go code</h2>
+    <button
+      class="inline-block cursor-pointer rounded-md bg-gray-800 px-4 py-3 text-center text-sm font-semibold uppercase text-white transition duration-200 ease-in-out hover:bg-gray-900">
+      Button
+    </button>
   </header>
 }
 
@@ -20,7 +24,7 @@ templ Home(name string) {
       <link rel="stylesheet" href="/assets/css/index.css"></link>
       <title>Bootstrap demo</title>
     </head>
-    <body class="p-6 grid gap-4 bg-slate-200">
+    <body class="p-4 flex gap-4 flex-col">
       @headerTemplate(name)
       <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
 

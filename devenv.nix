@@ -24,8 +24,8 @@
     # Templ
     pkgs.templ
 
-    # TailwindCSS
-    pkgs.tailwindcss
+    # TailwindCSS & DaisyUI
+    pkgs.nodejs_22
 
     # Linters
     pkgs.nodePackages.prettier
@@ -42,6 +42,9 @@
     go mod download
     go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
+    cd config/tailwind
+    npm install
+    cd ../..
   '';
 
   scripts.start.exec = ''
@@ -58,12 +61,12 @@
   scripts.format.exec = ''
     golangci-lint run ./... --fix --config config/golangci.yaml
     sqlc vet -f config/sqlc.yaml
-    prettier "**/*.{json,yaml,md}" --write
+    prettier "**/*.{js,css,json,yaml,md}" --write
   '';
 
   scripts.lint.exec = ''
     golangci-lint run ./...  --config config/golangci.yaml
-    prettier "**/*.{json,yaml,md}" --check
+    prettier "**/*.{js,css,json,yaml,md}" --check
   '';
 
   scripts.generate.exec = ''
@@ -92,7 +95,8 @@
   '';
 
   scripts.generate-tailwind.exec = ''
-    tailwindcss -i ./config/tailwind.css -o ./assets/css/index.css
+    cd config/tailwind
+    npx tailwindcss -i ./tailwind.css -o ../../assets/css/index.css
   '';
 
   enterShell = ''
