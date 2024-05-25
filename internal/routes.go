@@ -26,5 +26,5 @@ func registerStaticFilesRoutes(r *chi.Mux) {
 }
 
 func registerPageRoutes(r *chi.Mux, _ *core.ServerOptions) {
-	r.Get("/", templ.Handler(templates.Home("john")).ServeHTTP)
+	r.Get("/", templ.Handler(templates.Home("Home")).ServeHTTP)
 }

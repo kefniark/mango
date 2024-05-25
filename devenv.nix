@@ -52,7 +52,7 @@
     rm -rf ./dist
     mkdir -p ./dist
     go build -ldflags="-s -w" -o ./dist/server ./main.go
-    cp -r ./static ./dist/static
+    cp -r ./assets ./dist/assets
   '';
 
   scripts.format.exec = ''
