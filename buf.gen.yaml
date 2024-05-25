@@ -1,0 +1,20 @@
+version: v2
+inputs:
+  - directory: internal/api/schema
+plugins:
+  - local: protoc-gen-go
+    out: gen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-go-grpc
+    out: gen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: gen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-connect-openapi
+    out: gen/api
+    strategy: all
+    opt: base=config/base.openapi.yaml,content-types=json,path=api.openapi.yaml
