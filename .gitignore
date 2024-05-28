@@ -48,4 +48,4 @@ devenv.local.nix
 .pre-commit-config.yaml
 
 # tailwind auto-generated
-assets/css/index.css
+css/tailwind.css

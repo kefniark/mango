@@ -22,7 +22,7 @@ func (generator TailwindGenerator) Execute(app string) error {
 		return err
 	}
 
-	cmd := exec.Command("npx", "tailwindcss", "-i", "./tailwind.css", "-o", "../../assets/css/index.css")
+	cmd := exec.Command("npx", "tailwindcss", "-i", "./tailwind.css", "-o", "../../assets/css/tailwind.css")
 	cmd.Dir = dir
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
