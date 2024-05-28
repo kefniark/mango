@@ -32,31 +32,18 @@
   ];
 
   # https://devenv.sh/scripts/
-  scripts.clean.exec = ''
-  rm -rf ./gen
-  rm -rf ./dist
-  rm -rf ./dev.db
-  '';
-
-  scripts.install-deps.exec = ''
+  scripts.prepare.exec = ''
     go mod download
     go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
-    cd config/tailwind
-    npm install
-    cd ../..
+
+    mango prepare
   '';
 
-  scripts.start.exec = ''
-    air -c ./config/air.toml
-  '';
-
-  scripts.build.exec = ''
-    rm -rf ./dist
-    mkdir -p ./dist
-    go build -ldflags="-s -w" -o ./dist/server ./main.go
-    cp -r ./assets ./dist/assets
-  '';
+  scripts.build.exec = ''mango build'';
+  scripts.clean.exec = "mango clean";
+  scripts.generate.exec = "mango generate";
+  scripts.mango.exec = "go run ./cli $*";
 
   scripts.format.exec = ''
     golangci-lint run ./... --fix --config config/golangci.yaml
@@ -69,49 +56,24 @@
     prettier "**/*.{js,css,json,yaml,md}" --check
   '';
 
-  scripts.generate.exec = ''
-    generate-sql &
-    generate-proto &
-    generate-templ &
-    generate-tailwind &
-    wait
-  '';
-
-  scripts.generate-sql.exec = ''
-    sqlc generate -f config/sqlc.yaml
-  '';
-
-  scripts.generate-proto.exec = ''
-    mkdir -p ./gen/api
-    BUF_CMD=$(which buf)
-
-    # Auto-generate GRPC/Client code based on api.proto
-    $BUF_CMD dep update
-    $BUF_CMD generate
-  '';
-
-  scripts.generate-templ.exec = ''
-    templ generate
-  '';
-
   scripts.generate-tailwind.exec = ''
     cd config/tailwind
     npx tailwindcss -i ./tailwind.css -o ../../assets/css/index.css
   '';
 
   enterShell = ''
-    if [ ! -d directory ]; then
-      install-deps
+    if [ ! -d example/.mango ]; then
+      prepare
       generate
     fi
-    echo "----- 🚀 Server Devenv -----"
+
     echo ""
-    echo "💻 Scripts:"
-    echo " > start : Start dev server"
-    echo " > build : Compile server go into binary"
-    echo " > format : Format code"
-    echo " > lint : Lint code"
-    echo " > generate : Code generation (Sql queries, Protobuf, Openapi, ...)"
+    echo "----- 🚀 Mango Development Shell -----"
+    echo " 💻 mango dev : Start dev server"
+    echo " 💻 mango build : Compile server go into binary"
+    echo " 💻 mango format : Format code"
+    echo " 💻 mango lint : Lint code"
+    echo " 💻 mango generate : Code generation (Sql queries, Protobuf, Openapi, ...)"
     echo "------"
   '';
 
@@ -122,6 +84,8 @@
   # '';
 
   # https://devenv.sh/services/
+  services.postgres.enable = true;
+
 
   # https://devenv.sh/languages/
   languages.nix.enable = true;

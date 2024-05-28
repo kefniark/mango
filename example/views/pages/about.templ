@@ -1,0 +1,13 @@
+package pages
+
+import (
+	"github.com/kefniark/go-web-server/example/views/layout"
+)
+
+templ About(name string) {
+  @layout.AppLayout(name) {
+    <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
+    <h3>This is the about page</h3>
+  }
+}
+

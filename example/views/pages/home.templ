@@ -1,0 +1,17 @@
+package pages
+
+import (
+  "github.com/kefniark/go-web-server/example/views/helpers"
+  "github.com/kefniark/go-web-server/example/views/components"
+	"github.com/kefniark/go-web-server/example/views/layout"
+)
+
+templ Home(name string) {
+  @layout.AppLayout(name) {
+    @components.HeaderTemplate(name)
+      <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
+
+      <img src={ helpers.AssetURL("logo.png") } class="m-auto max-w-[100%]" />
+  }
+}
+

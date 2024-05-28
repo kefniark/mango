@@ -1,0 +1,9 @@
+openapi: "3.0.2"
+info:
+  title: "{{ .Title }}"
+  description: "{{ .Description }}"
+  version: "{{ .Version }}"
+servers:
+{{ range .API.Servers }}  - description: "{{ .Name }}"
+    url: "{{ .URL }}"
+{{ end }}

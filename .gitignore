@@ -23,9 +23,13 @@ node_modules/
 go.work
 go.work.sum
 
+# Mango
+.mango
+codegen/
+gen/
+
 # Generated files
 .vscode/
-gen/
 bin/
 dist/
 tmp/

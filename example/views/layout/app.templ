@@ -1,0 +1,20 @@
+package layout
+
+import (
+  "github.com/kefniark/go-web-server/example/views/helpers"
+)
+
+templ AppLayout(name string) {
+  <!doctype html>
+  <html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <link rel="stylesheet" href={ helpers.AssetURL("css/index.css") }></link>
+      <title>Bootstrap demo</title>
+    </head>
+    <body class="p-4 flex gap-4 flex-col">
+      { children... }
+    </body>
+  </html>
+}

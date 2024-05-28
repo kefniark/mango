@@ -1,0 +1,20 @@
+version: v2
+inputs:
+  - directory: api
+plugins:
+  - local: protoc-gen-go
+    out: codegen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-go-grpc
+    out: codegen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-connect-go
+    out: codegen/api
+    strategy: all
+    opt: paths=source_relative
+  - local: protoc-gen-connect-openapi
+    out: codegen/api
+    strategy: all
+    opt: base=.mango/api/openapi.yaml,content-types=json,path=api.openapi.yaml
