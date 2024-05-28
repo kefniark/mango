@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	dbClient "github.com/kefniark/go-web-server/example/codegen/db"
-	"github.com/kefniark/go-web-server/example/config"
+	dbClient "github.com/kefniark/mango/example/codegen/db"
+	"github.com/kefniark/mango/example/config"
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"

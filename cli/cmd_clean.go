@@ -5,7 +5,7 @@ import (
 	"path"
 	"strings"
 
-	"github.com/kefniark/go-web-server/cli/config"
+	"github.com/kefniark/mango/cli/config"
 	"github.com/spf13/cobra"
 )
 

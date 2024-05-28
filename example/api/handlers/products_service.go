@@ -5,9 +5,9 @@ import (
 	"errors"
 
 	"connectrpc.com/connect"
-	"github.com/kefniark/go-web-server/example/codegen/api"
-	"github.com/kefniark/go-web-server/example/codegen/db"
-	"github.com/kefniark/go-web-server/example/config"
+	"github.com/kefniark/mango/example/codegen/api"
+	"github.com/kefniark/mango/example/codegen/db"
+	"github.com/kefniark/mango/example/config"
 	"github.com/moroz/uuidv7-go"
 	"github.com/rs/zerolog"
 	"google.golang.org/protobuf/types/known/emptypb"

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/kefniark/go-web-server/example/codegen/db"
+	"github.com/kefniark/mango/example/codegen/db"
 	"github.com/rs/zerolog"
 )
 

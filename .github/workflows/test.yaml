@@ -24,6 +24,10 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
+      - name: Prepare Project
+        run: |
+          devenv shell prepare
+          devenv shell generate
       - name: build the project
         run: devenv shell build
 
@@ -44,5 +48,9 @@ jobs:
           authToken: "${{ secrets.CACHIX_AUTH_TOKEN }}"
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
+      - name: Prepare Project
+        run: |
+          devenv shell prepare
+          devenv shell generate
       - name: Lint the project
         run: devenv shell lint

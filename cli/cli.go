@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/kefniark/go-web-server/cli/config"
-	"github.com/kefniark/go-web-server/cli/generate"
-	"github.com/kefniark/go-web-server/cli/prepare"
+	"github.com/kefniark/mango/cli/config"
+	"github.com/kefniark/mango/cli/generate"
+	"github.com/kefniark/mango/cli/prepare"
 	"github.com/spf13/cobra"
 )
 

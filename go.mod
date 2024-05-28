@@ -1,4 +1,4 @@
-module github.com/kefniark/go-web-server
+module github.com/kefniark/mango
 
 go 1.22.1
 

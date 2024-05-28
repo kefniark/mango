@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/kefniark/go-web-server/cli/config"
+	"github.com/kefniark/mango/cli/config"
 )
 
 //go:embed static/**/*

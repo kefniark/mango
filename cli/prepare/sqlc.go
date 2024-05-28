@@ -7,7 +7,7 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/kefniark/go-web-server/cli/config"
+	"github.com/kefniark/mango/cli/config"
 )
 
 //go:embed templates/*.tmpl
