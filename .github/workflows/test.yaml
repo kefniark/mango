@@ -25,9 +25,7 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: prepare the project
-        run: |
-          mango prepare
-          mango generate
+        run: devenv shell
       - name: build the project
         run: mango build
 
@@ -49,8 +47,6 @@ jobs:
       - name: Install devenv.sh
         run: nix profile install nixpkgs#devenv
       - name: prepare the project
-        run: |
-          mango prepare
-          mango generate
+        run: devenv shell
       - name: Lint the project
         run: mango lint
