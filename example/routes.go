@@ -1,6 +1,10 @@
 package main
 
 import (
+	"embed"
+	"fmt"
+	"io/fs"
+	"log"
 	"net/http"
 
 	"github.com/a-h/templ"
@@ -12,6 +16,8 @@ import (
 	"github.com/kefniark/go-web-server/example/views/pages"
 )
 
+const assetCache = 3600 * 24
+
 func registerAPIRoutes(r *chi.Mux, options *config.ServerOptions) {
 	r.Route("/api", func(r chi.Router) {
 		path, handler := apiconnect.NewUsersHandler(handlers.NewUserService(options))
@@ -22,8 +28,21 @@ func registerAPIRoutes(r *chi.Mux, options *config.ServerOptions) {
 	})
 }
 
+//go:embed assets
+var embeddedAssetsFS embed.FS
+
 func registerStaticFilesRoutes(r *chi.Mux) {
-	r.Handle("/assets/*", http.StripPrefix("/assets", http.FileServer(http.Dir("./assets"))))
+	assetsFs, err := fs.Sub(embeddedAssetsFS, "assets")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	fileserver := http.StripPrefix("/assets", http.FileServer(http.FS(assetsFs)))
+
+	r.HandleFunc("/assets/*", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Cache-Control", fmt.Sprintf("public, max-age=%d", assetCache))
+		fileserver.ServeHTTP(w, r)
+	})
 }
 
 func registerPageRoutes(r *chi.Mux, _ *config.ServerOptions) {

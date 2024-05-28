@@ -10,11 +10,13 @@ templ AppLayout(name string) {
     <head>
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <link rel="icon" type="image/x-icon" href="/assets/favicon.png"/>
       <link rel="stylesheet" href={ helpers.AssetURL("css/index.css") }></link>
       <title>Bootstrap demo</title>
     </head>
     <body class="p-4 flex gap-4 flex-col">
       { children... }
+      @bottomMenu()
     </body>
   </html>
 }

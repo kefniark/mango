@@ -13,8 +13,9 @@ func registerMiddlewares(r *chi.Mux) {
 	r.Use(middleware.RealIP)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
+	r.Use(middleware.CleanPath)
 	r.Use(middleware.RedirectSlashes)
-	r.Use(middleware.NoCache)
+	r.Use(middleware.Heartbeat("/healthz"))
 	r.Use(middleware.Timeout(defaultTimeout))
 
 	r.Use(cors.Handler(cors.Options{

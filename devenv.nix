@@ -36,36 +36,15 @@
     go mod download
     go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
-
+    
     mango prepare
+    mango generate
   '';
 
-  scripts.build.exec = ''mango build'';
-  scripts.clean.exec = "mango clean";
-  scripts.generate.exec = "mango generate";
   scripts.mango.exec = "go run ./cli $*";
 
-  scripts.format.exec = ''
-    golangci-lint run ./... --fix --config config/golangci.yaml
-    sqlc vet -f config/sqlc.yaml
-    prettier "**/*.{js,css,json,yaml,md}" --write
-  '';
-
-  scripts.lint.exec = ''
-    golangci-lint run ./...  --config config/golangci.yaml
-    prettier "**/*.{js,css,json,yaml,md}" --check
-  '';
-
-  scripts.generate-tailwind.exec = ''
-    cd config/tailwind
-    npx tailwindcss -i ./tailwind.css -o ../../assets/css/index.css
-  '';
-
   enterShell = ''
-    if [ ! -d example/.mango ]; then
-      prepare
-      generate
-    fi
+    prepare
 
     echo ""
     echo "----- 🚀 Mango Development Shell -----"
