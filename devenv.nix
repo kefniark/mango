@@ -36,15 +36,14 @@
     go mod download
     go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
-    
-    mango prepare
-    mango generate
   '';
 
   scripts.mango.exec = "go run ./cli $*";
 
   enterShell = ''
     prepare
+    mango prepare
+    mango generate
 
     echo ""
     echo "----- 🚀 Mango Development Shell -----"

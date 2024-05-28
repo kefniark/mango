@@ -23,9 +23,8 @@ func initExec(cfg *config.Config) {
 	// generater
 	generater = append(generater, generate.ProtoGenerator{})
 	generater = append(generater, generate.SQLCGenerator{})
-	generater = append(generater, generate.TemplGenerator{})
 	generater = append(generater, generate.TailwindGenerator{})
-
+	generater = append(generater, generate.TemplGenerator{})
 }
 
 func main() {

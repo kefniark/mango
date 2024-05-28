@@ -9,6 +9,6 @@ import (
 var Logger *zerolog.Logger
 
 func init() {
-	log := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).Level(zerolog.InfoLevel)
+	log := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).Level(zerolog.DebugLevel)
 	Logger = &log
 }
