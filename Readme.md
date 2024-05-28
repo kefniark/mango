@@ -63,7 +63,7 @@ devenv shell # not required if you use direnv
 - [x] Support .env
 - [x] Web UI (HTMX/Templ)
 - [x] Handle assets/public folder
-- [ ] Better CLI logging
+- [x] Better CLI logging
 - [ ] Docker compose integration
 - [ ] Infra dev tools (graphana)
 - [ ] Background Task (queue)
