@@ -17,18 +17,10 @@ func buildCmd(cfg *config.Config) *cobra.Command {
 		Run: func(cmd *cobra.Command, args []string) {
 			config.Logger.Info().Msg("Build Apps ...")
 			for name, cfg := range *cfg {
-				if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
-					config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
-					for _, exec := range preparer {
-						exec.Execute(name)
-					}
-					for _, exec := range generater {
-						exec.Execute(name)
-					}
-				}
+				checkAppReady(name)
 
 				for _, platform := range cfg.Build.Platforms {
-					os.MkdirAll(path.Join("dist", name), os.ModeAppend)
+					os.MkdirAll(path.Join("dist", name), os.ModePerm)
 
 					cmd := exec.Command(
 						"env", fmt.Sprintf("GOOS=%s", platform.Os), fmt.Sprintf("GOARCH=%s", platform.Arch),

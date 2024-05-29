@@ -58,16 +58,21 @@ devenv shell # not required if you use direnv
 
 ## TODO Progress
 
-- [ ] Bootstrap templates
-- [x] Support Nix/Devenv
-- [x] Support .env
-- [x] Web UI (HTMX/Templ)
-- [x] Handle assets/public folder
-- [x] Better CLI logging
-- [ ] Docker compose integration
-- [ ] Infra dev tools (graphana)
-- [ ] Background Task (queue)
-- [ ] Doc generation
-- [ ] Tests / 2e2
-- [x] Build
-- [ ] Distribution (auto build docker images / binaries)
+- CLI
+  - [ ] Bootstrap templates
+  - [x] Better CLI logging
+- Project
+  - [x] Web UI (HTMX/Templ)
+  - [x] Handle assets/public folder
+  - [ ] Background Task (queue)
+  - [ ] Doc generation
+  - [ ] Tests / 2e2
+- Dev Tool
+  - [x] Support Nix/Devenv
+  - [x] Support .env
+  - [x] Build
+  - [ ] Docker compose integration
+  - [ ] DB Migration Tools
+  - [ ] Infra dev tools (graphana)
+- Infra
+  - [ ] Deploy & Document (auto build docker images / binaries) for (Self-hosted, Heroku, Fly.io, GCP, ...)

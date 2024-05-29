@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"os"
 	"os/exec"
-	"path"
 	"path/filepath"
 
 	"github.com/kefniark/mango/cli/config"
@@ -17,25 +16,17 @@ func formatCmd(cfg *config.Config) *cobra.Command {
 		Short: "Auto-format code",
 		Run: func(cmd *cobra.Command, args []string) {
 			for name := range *cfg {
-				if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
-					config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
-					for _, exec := range preparer {
-						exec.Execute(name)
-					}
-					for _, exec := range generater {
-						exec.Execute(name)
-					}
-				}
+				checkAppReady(name)
 
 				config.Logger.Info().Str("app", name).Msg("Lint code with Auto-fix ...")
 				if err := lintFormat(name); err != nil {
-					config.Logger.Err(err)
+					config.Logger.Err(err).Msg("Lint Failed")
 					return
 				}
 			}
 
 			if err := prettier(true); err != nil {
-				config.Logger.Err(err)
+				config.Logger.Err(err).Msg("Prettier Failed")
 				return
 			}
 
@@ -50,25 +41,17 @@ func lintCmd(cfg *config.Config) *cobra.Command {
 		Short: "Lint code",
 		Run: func(cmd *cobra.Command, args []string) {
 			for name := range *cfg {
-				if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
-					config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
-					for _, exec := range preparer {
-						exec.Execute(name)
-					}
-					for _, exec := range generater {
-						exec.Execute(name)
-					}
-				}
+				checkAppReady(name)
 
 				config.Logger.Info().Str("app", name).Msg("Lint code ...")
 				if err := lint(name); err != nil {
-					config.Logger.Err(err)
+					config.Logger.Err(err).Msg("Lint Failed")
 					return
 				}
 			}
 
 			if err := prettier(false); err != nil {
-				config.Logger.Err(err)
+				config.Logger.Err(err).Msg("Prettier Failed")
 				return
 			}
 

@@ -17,6 +17,10 @@ type SQLCPrepare struct {
 	Config *config.Config
 }
 
+func (prepare SQLCPrepare) Name() string {
+	return "SQLC Preparer"
+}
+
 func (prepare SQLCPrepare) Execute(app string) error {
 	tmpl, err := template.ParseFS(templates, "templates/sqlc-config.go.tmpl")
 	if err != nil {
@@ -24,7 +28,7 @@ func (prepare SQLCPrepare) Execute(app string) error {
 	}
 
 	folderDB := path.Join(app, ".mango/db")
-	if err = os.MkdirAll(folderDB, os.ModeAppend); err != nil {
+	if err = os.MkdirAll(folderDB, os.ModePerm); err != nil {
 		return err
 	}
 

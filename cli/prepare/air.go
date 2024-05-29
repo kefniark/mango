@@ -16,6 +16,10 @@ type AirConfig struct {
 
 type AirPrepare struct{}
 
+func (prepare AirPrepare) Name() string {
+	return "AIR Preparer"
+}
+
 func (prepare AirPrepare) Execute(app string) error {
 	tmpl, err := template.ParseFS(templates, "templates/air.go.tmpl")
 	if err != nil {
@@ -23,7 +27,7 @@ func (prepare AirPrepare) Execute(app string) error {
 	}
 
 	folderMango := path.Join(app, ".mango")
-	err = os.MkdirAll(folderMango, os.ModeAppend)
+	err = os.MkdirAll(folderMango, os.ModePerm)
 	if err != nil {
 		return err
 	}

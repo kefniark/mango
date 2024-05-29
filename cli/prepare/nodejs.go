@@ -11,6 +11,10 @@ import (
 
 type NodeJSPrepare struct{}
 
+func (prepare NodeJSPrepare) Name() string {
+	return "NodeJS Preparer"
+}
+
 func (prepare NodeJSPrepare) Execute(app string) error {
 	if _, err := os.Stat(path.Join(app, "tools", "nodejs", "package.json")); err != nil {
 		config.Logger.Info().Str("app", app).Str("path", path.Join(app, "tools", "nodejs")).Msg("Skip Install Nodejs ...")

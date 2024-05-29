@@ -11,6 +11,10 @@ import (
 
 type TemplGenerator struct{}
 
+func (prepare TemplGenerator) Name() string {
+	return "Templ Generator"
+}
+
 func (generator TemplGenerator) Execute(app string) error {
 	if _, err := os.Stat(path.Join(app, "views")); err != nil {
 		config.Logger.Debug().Str("app", app).Str("path", path.Join(app, "views")).Msg("Skip Generate Templ ...")

@@ -13,6 +13,10 @@ type OpenAPIPrepare struct {
 	Config *config.Config
 }
 
+func (prepare OpenAPIPrepare) Name() string {
+	return "OpenAPI Preparer"
+}
+
 func (prepare OpenAPIPrepare) Execute(app string) error {
 	tmpl, err := template.ParseFS(templates, "templates/openapi-config.go.tmpl")
 	if err != nil {
@@ -20,7 +24,7 @@ func (prepare OpenAPIPrepare) Execute(app string) error {
 	}
 
 	folderAPI := path.Join(app, ".mango/api")
-	err = os.MkdirAll(folderAPI, os.ModeAppend)
+	err = os.MkdirAll(folderAPI, os.ModePerm)
 	if err != nil {
 		return err
 	}

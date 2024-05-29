@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"path"
+	"path/filepath"
 	"strings"
 
 	"github.com/kefniark/mango/cli/config"
@@ -18,6 +19,22 @@ func cleanCmd(cfg *config.Config) *cobra.Command {
 			for name := range *cfg {
 				os.RemoveAll(path.Join(name, ".mango"))
 				os.RemoveAll(path.Join(name, "codegen"))
+
+				// cleanup potential buf files
+				entries, _ := os.ReadDir(name)
+				for _, e := range entries {
+					if strings.HasPrefix(e.Name(), "buf.") {
+						os.Remove(path.Join(name, e.Name()))
+					}
+				}
+
+				// cleanup recursively (templ)
+				filepath.Walk(name, func(path string, info os.FileInfo, err error) error {
+					if strings.HasSuffix(path, "_templ.go") {
+						os.Remove(path)
+					}
+					return nil
+				})
 			}
 			os.RemoveAll(path.Join(".", "dist"))
 

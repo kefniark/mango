@@ -42,7 +42,6 @@
 
   enterShell = ''
     prepare
-    mango prepare
     mango generate
 
     echo ""

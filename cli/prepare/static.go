@@ -14,6 +14,10 @@ var static embed.FS
 
 type StaticFilePrepare struct{}
 
+func (prepare StaticFilePrepare) Name() string {
+	return "Static Preparer"
+}
+
 func (prepare StaticFilePrepare) Execute(app string) error {
 	copySubFolder(app, "")
 	return nil
@@ -31,7 +35,7 @@ func copySubFolder(app string, folder string) {
 			continue
 		}
 
-		os.MkdirAll(path.Join(app, ".mango", folder), os.ModeAppend)
+		os.MkdirAll(path.Join(app, ".mango", folder), os.ModePerm)
 
 		config.Logger.Debug().Str("app", app).Str("path", path.Join(app, ".mango", folder, file.Name())).Msg("Generated File")
 		f, err := fs.ReadFile(static, path.Join("static", folder, file.Name()))
@@ -39,6 +43,6 @@ func copySubFolder(app string, folder string) {
 			continue
 		}
 
-		os.WriteFile(path.Join(app, ".mango", folder, file.Name()), f, os.ModeAppend)
+		os.WriteFile(path.Join(app, ".mango", folder, file.Name()), f, os.ModePerm)
 	}
 }

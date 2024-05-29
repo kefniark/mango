@@ -11,6 +11,10 @@ import (
 
 type TailwindGenerator struct{}
 
+func (prepare TailwindGenerator) Name() string {
+	return "Tailwind Generator"
+}
+
 func (generator TailwindGenerator) Execute(app string) error {
 	if _, err := os.Stat(path.Join(app, "views")); err != nil {
 		config.Logger.Debug().Str("app", app).Str("path", path.Join(app, "views")).Msg("Skip Generate Tailwind ...")

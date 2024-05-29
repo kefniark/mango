@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"path"
 
 	"github.com/kefniark/mango/cli/config"
 	"github.com/kefniark/mango/cli/generate"
@@ -53,5 +54,39 @@ func main() {
 	if err := rootCmd.Execute(); err != nil {
 		config.Logger.Err(err).Msg("Cannot execute command")
 		os.Exit(1)
+	}
+}
+
+func checkAppReady(name string) {
+	if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
+		config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
+		for _, exec := range preparer {
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("Start")
+			if err := exec.Execute(name); err != nil {
+				config.Logger.Err(err).Msg("Prepare Failed")
+			}
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("End")
+		}
+
+		for _, exec := range generater {
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("Start")
+			if err := exec.Execute(name); err != nil {
+				config.Logger.Err(err).Msg("Generate Failed")
+			}
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("End")
+		}
+	}
+}
+
+func checkAppPrepared(name string) {
+	if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
+		config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
+		for _, exec := range preparer {
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("Start")
+			if err := exec.Execute(name); err != nil {
+				config.Logger.Err(err).Msg("Prepare Failed")
+			}
+			config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("End")
+		}
 	}
 }

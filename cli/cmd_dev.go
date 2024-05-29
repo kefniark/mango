@@ -17,15 +17,7 @@ func devCmd(cfg *config.Config) *cobra.Command {
 			config.Logger.Info().Msg("Start Dev Servers ...")
 			cmds := []*exec.Cmd{}
 			for name := range *cfg {
-				if _, err := os.Stat(path.Join(name, ".mango")); err != nil {
-					config.Logger.Warn().Msg("Need preparation first, wait a moment ...")
-					for _, exec := range preparer {
-						exec.Execute(name)
-					}
-					for _, exec := range generater {
-						exec.Execute(name)
-					}
-				}
+				checkAppReady(name)
 
 				cmd := exec.Command("air", "-c", path.Join(name, ".mango", "air.toml"))
 				cmd.Stdout = os.Stdout

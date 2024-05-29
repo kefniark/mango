@@ -13,10 +13,11 @@ func prepareCmd(cfg *config.Config) *cobra.Command {
 			for name := range *cfg {
 				config.Logger.Info().Str("app", name).Msg("Prepare .mango folders ...")
 				for _, exec := range preparer {
+					config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("Start")
 					if err := exec.Execute(name); err != nil {
-						config.Logger.Err(err)
-						return
+						config.Logger.Err(err).Msg("Prepare Failed")
 					}
+					config.Logger.Debug().Str("app", name).Str("exec", exec.Name()).Msg("End")
 				}
 			}
 		},
