@@ -51,6 +51,5 @@ jobs:
       - name: Lint the project
         shell: devenv shell bash -- -e {0}
         run: |
-          mango prepare
-          mange generate
+          mango generate
           mango lint
