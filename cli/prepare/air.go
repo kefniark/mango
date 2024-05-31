@@ -37,6 +37,7 @@ func (prepare AirPrepare) Execute(app string) error {
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
 	err = tmpl.Execute(f, AirConfig{
 		App:       app,

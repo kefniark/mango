@@ -61,6 +61,9 @@ devenv shell # not required if you use direnv
 - CLI
   - [ ] Bootstrap templates
   - [x] Better CLI logging
+- DB
+  - [ ] DB Migration Tools
+  - [ ] SQLC Crud Queries Auto-generated (Insert/InsertAll/Get/List/Delete)
 - Project
   - [x] Web UI (HTMX/Templ)
   - [x] Handle assets/public folder
@@ -72,7 +75,7 @@ devenv shell # not required if you use direnv
   - [x] Support .env
   - [x] Build
   - [ ] Docker compose integration
-  - [ ] DB Migration Tools
   - [ ] Infra dev tools (graphana)
 - Infra
+  - [ ] Make it compatible with devenv container & nixpacks
   - [ ] Deploy & Document (auto build docker images / binaries) for (Self-hosted, Heroku, Fly.io, GCP, ...)

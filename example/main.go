@@ -2,39 +2,43 @@ package main
 
 import (
 	"context"
-	"database/sql"
+	"fmt"
 	"net/http"
 	"os"
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	dbClient "github.com/kefniark/mango/example/codegen/db"
+	"github.com/google/uuid"
+	"github.com/kefniark/mango/example/codegen/database"
 	"github.com/kefniark/mango/example/config"
+	"github.com/kefniark/mango/example/db"
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
-
-	// embed database schema.
-	_ "embed"
-
-	// sqlite3 driver.
-	_ "github.com/mattn/go-sqlite3"
 )
 
 const addr = ":5600"
 const defaultTimeout = 5 * time.Second
 
 func main() {
-	options := newServerOptions()
-	logger := options.Logger
+	logger, db := newServerOptions()
 	logger.Debug().Msg("Initialize Server")
 
 	// Router
 	r := chi.NewRouter()
+
+	// Build Default Context (DB, Logger)
+	r.Use(func(h http.Handler) http.Handler {
+		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+			ctx := config.WithDB(r.Context(), db)
+			ctx = config.WithLogger(ctx, logger)
+			h.ServeHTTP(rw, r.WithContext(ctx))
+		})
+	})
 	registerMiddlewares(r)
-	registerAPIRoutes(r, options)
+	registerAPIRoutes(r)
 	registerStaticFilesRoutes(r)
-	registerPageRoutes(r, options)
+	registerPageRoutes(r)
 
 	// HTTP listen and serve
 	logger.Info().Msgf("Listening on %s", addr)
@@ -49,33 +53,31 @@ func main() {
 	}
 }
 
-//go:embed db/schema.sql
-var dbSchema string
-
-func newServerOptions() *config.ServerOptions {
+func newServerOptions() (*zerolog.Logger, *database.Queries) {
 	logger := newLogger()
 
-	db, err := newDatabase(logger)
+	dbClient, err := db.New()
 	if err != nil {
 		logger.Panic().Err(err).Msg("Cannot initialize Database connection")
 	}
 
-	return &config.ServerOptions{Logger: logger, DB: db}
-}
-
-func newDatabase(logger *zerolog.Logger) (*dbClient.Queries, error) {
-	// db, err := sql.Open("sqlite3", ":memory:")
-	db, err := sql.Open("sqlite3", "dev.db")
-	if err != nil {
-		return nil, err
-	}
-
-	// apply db schema
-	if _, err = db.ExecContext(context.Background(), dbSchema); err != nil {
+	if err = dbClient.Migrate(); err != nil {
 		logger.Warn().Err(err).Msg("Cannot apply database schema")
+	} else {
+		client := dbClient.Client()
+		for i := range 5 {
+			_, err = client.SetUser(context.Background(), database.SetUserParams{
+				ID:   uuid.New(),
+				Name: fmt.Sprintf("user-%d", i),
+				Bio:  "",
+			})
+			if err != nil {
+				logger.Warn().Err(err).Msg("Cannot seed data")
+			}
+		}
 	}
 
-	return dbClient.New(db), nil
+	return logger, dbClient.Client()
 }
 
 func newLogger() *zerolog.Logger {

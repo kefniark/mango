@@ -12,18 +12,17 @@ import (
 	"github.com/kefniark/mango/example/codegen/api/apiconnect"
 
 	"github.com/kefniark/mango/example/api/handlers"
-	"github.com/kefniark/mango/example/config"
 	"github.com/kefniark/mango/example/views/pages"
 )
 
 const assetCache = 3600 * 24
 
-func registerAPIRoutes(r *chi.Mux, options *config.ServerOptions) {
+func registerAPIRoutes(r *chi.Mux) {
 	r.Route("/api", func(r chi.Router) {
-		path, handler := apiconnect.NewUsersHandler(handlers.NewUserService(options))
+		path, handler := apiconnect.NewUsersHandler(handlers.NewUserService())
 		r.Mount(path, http.StripPrefix("/api", handler))
 
-		path, handler = apiconnect.NewProductsHandler(handlers.NewProductService(options))
+		path, handler = apiconnect.NewProductsHandler(handlers.NewProductService())
 		r.Mount(path, http.StripPrefix("/api", handler))
 	})
 }
@@ -45,7 +44,7 @@ func registerStaticFilesRoutes(r *chi.Mux) {
 	})
 }
 
-func registerPageRoutes(r *chi.Mux, _ *config.ServerOptions) {
+func registerPageRoutes(r *chi.Mux) {
 	r.Get("/", templ.Handler(pages.Home("Home")).ServeHTTP)
 	r.Get("/about", templ.Handler(pages.About("About")).ServeHTTP)
 }

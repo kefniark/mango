@@ -4,36 +4,30 @@ import (
 	"context"
 
 	"connectrpc.com/connect"
+	"github.com/google/uuid"
 	"github.com/kefniark/mango/example/codegen/api"
-	"github.com/kefniark/mango/example/codegen/db"
+	"github.com/kefniark/mango/example/codegen/database"
 	"github.com/kefniark/mango/example/config"
-	"github.com/moroz/uuidv7-go"
-	"github.com/rs/zerolog"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type UserService struct {
-	db     *db.Queries
-	logger zerolog.Logger
 	api.UnimplementedUsersServer
 }
 
-func NewUserService(options *config.ServerOptions) *UserService {
-	return &UserService{
-		db:     options.DB,
-		logger: options.Logger.With().Str("service", "UserService").Logger(),
-	}
+func NewUserService() *UserService {
+	return &UserService{}
 }
 
-func mapUserSQLToGrpc(user db.User) *api.UserData {
+func mapUserSQLToGrpc(user database.User) *api.UserData {
 	return &api.UserData{
-		Id:   user.ID.(string),
+		Id:   user.ID.String(),
 		Name: user.Name,
 		Bio:  user.Bio,
 	}
 }
 
-func mapUsersSQLToGrpc(users []db.User) []*api.UserData {
+func mapUsersSQLToGrpc(users []database.User) []*api.UserData {
 	res := []*api.UserData{}
 	for _, user := range users {
 		res = append(res, mapUserSQLToGrpc(user))
@@ -43,7 +37,14 @@ func mapUsersSQLToGrpc(users []db.User) []*api.UserData {
 
 // Get a User by Id.
 func (service *UserService) Get(ctx context.Context, req *connect.Request[api.UserGetRequest]) (*connect.Response[api.UserData], error) {
-	user, err := service.db.GetUser(ctx, req.Msg.GetId())
+	db := config.GetDB(ctx)
+
+	id, err := uuid.FromBytes([]byte(req.Msg.GetId()))
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := db.GetUser(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -51,20 +52,20 @@ func (service *UserService) Get(ctx context.Context, req *connect.Request[api.Us
 	return connect.NewResponse(mapUserSQLToGrpc(user)), nil
 }
 
+func getUUID(val string) uuid.UUID {
+	if id, err := uuid.FromBytes([]byte(val)); err != nil {
+		return uuid.New()
+	} else {
+		return id
+	}
+}
+
 // Create or Update User.
 func (service *UserService) Set(ctx context.Context, req *connect.Request[api.UserSetRequest]) (*connect.Response[api.UserData], error) {
-	var id string
-	if req.Msg.Id == nil {
-		id = uuidv7.Generate().String()
-	} else {
-		id = req.Msg.GetId()
-	}
+	db := config.GetDB(ctx)
+	id := getUUID(req.Msg.GetId())
 
-	// get and use User from Auth Middleware
-	// userInfo, _ := authn.GetInfo(ctx).(core.AuthInfo)
-	// fmt.Println("Set User", userInfo)
-
-	user, err := service.db.SetUser(ctx, db.SetUserParams{
+	user, err := db.SetUser(ctx, database.SetUserParams{
 		ID:   id,
 		Name: req.Msg.GetName(),
 		Bio:  req.Msg.GetBio(),
@@ -79,7 +80,10 @@ func (service *UserService) Set(ctx context.Context, req *connect.Request[api.Us
 
 // Delete a User.
 func (service *UserService) Delete(ctx context.Context, req *connect.Request[api.UserGetRequest]) (*connect.Response[emptypb.Empty], error) {
-	err := service.db.DeleteUser(ctx, req.Msg.GetId())
+	db := config.GetDB(ctx)
+	id := getUUID(req.Msg.GetId())
+
+	err := db.DeleteUser(ctx, id)
 	return nil, err
 }
 
@@ -88,12 +92,13 @@ func (service *UserService) Delete(ctx context.Context, req *connect.Request[api
 
 // List multiple Users (filter, paginate).
 func (service *UserService) Search(ctx context.Context, req *connect.Request[api.UserSearchRequest]) (*connect.Response[api.UserSearchResponse], error) {
-	count, err := service.db.CountUsers(ctx)
+	db := config.GetDB(ctx)
+	count, err := db.CountUsers(ctx)
 	if err != nil {
 		return nil, err
 	}
 
-	res, err := service.db.SearchUsers(ctx)
+	res, err := db.SearchUsers(ctx)
 	if err != nil {
 		return nil, err
 	}

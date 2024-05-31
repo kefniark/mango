@@ -6,29 +6,22 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/kefniark/mango/example/codegen/api"
-	"github.com/kefniark/mango/example/codegen/db"
+	"github.com/kefniark/mango/example/codegen/database"
 	"github.com/kefniark/mango/example/config"
-	"github.com/moroz/uuidv7-go"
-	"github.com/rs/zerolog"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 
 type ProductService struct {
-	db     *db.Queries
-	logger zerolog.Logger
 	api.UnimplementedProductsServer
 }
 
-func NewProductService(options *config.ServerOptions) *ProductService {
-	return &ProductService{
-		db:     options.DB,
-		logger: options.Logger.With().Str("service", "ProductService").Logger(),
-	}
+func NewProductService() *ProductService {
+	return &ProductService{}
 }
 
-func mapProductSQLToGrpc(product db.Product) *api.ProductData {
+func mapProductSQLToGrpc(product database.Product) *api.ProductData {
 	return &api.ProductData{
-		Id:   product.ID.(string),
+		Id:   product.ID.String(),
 		Name: product.Name,
 	}
 }
@@ -38,14 +31,10 @@ func (service *ProductService) Get(ctx context.Context, req *connect.Request[api
 }
 
 func (service *ProductService) Set(ctx context.Context, req *connect.Request[api.ProductSetRequest]) (*connect.Response[api.ProductData], error) {
-	var id string
-	if req.Msg.Id == nil {
-		id = uuidv7.Generate().String()
-	} else {
-		id = req.Msg.GetId()
-	}
+	db := config.GetDB(ctx)
 
-	product, err := service.db.SetProduct(ctx, db.SetProductParams{
+	id := getUUID(req.Msg.GetId())
+	product, err := db.SetProduct(ctx, database.SetProductParams{
 		ID:   id,
 		Name: req.Msg.GetName(),
 	})

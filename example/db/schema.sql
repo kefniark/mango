@@ -1,22 +1,22 @@
 CREATE TABLE users (
-  id   string PRIMARY KEY,
+  id   UUID PRIMARY KEY,
   name text    NOT NULL,
   bio  text    NOT NULL,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  deleted_at DATETIME
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  deleted_at TIMESTAMP
 );
 
 CREATE TABLE products (
-  id   string  PRIMARY KEY,
+  id   UUID  PRIMARY KEY,
   name text    NOT NULL
 );
 
 CREATE TABLE orders (
-  id   string  PRIMARY KEY,
+  id   UUID  PRIMARY KEY,
   name text    NOT NULL,
-  user_id string,
-  product_id string,
+  user_id UUID,
+  product_id UUID,
   FOREIGN KEY(user_id) REFERENCES users(id),
   FOREIGN KEY(product_id) REFERENCES products(id)
 );

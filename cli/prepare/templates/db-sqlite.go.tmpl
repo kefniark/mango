@@ -1,0 +1,46 @@
+package db
+
+import (
+	"context"
+	"database/sql"
+
+	"github.com/kefniark/mango/example/codegen/database"
+
+	// embed database schema.
+	_ "embed"
+
+	// sqlite3 driver.
+	_ "github.com/mattn/go-sqlite3"
+)
+
+//go:embed schema.sql
+var dbSchema string
+
+type DB struct {
+	db *sql.DB
+}
+
+func (db *DB) Migrate() error {
+	_, err := db.db.ExecContext(context.Background(), dbSchema)
+	return err
+}
+
+func (db *DB) Client() *database.Queries {
+	return database.New(db.db)
+}
+
+func New() (*DB, error) {
+    url := "{{ .URL }}"
+	if database_url, ok := os.LookupEnv("DATABASE_URL"); ok {
+		url = database_url
+	}
+
+	db, err := sql.Open("sqlite3", url)
+	if err != nil {
+		return nil, err
+	}
+
+	return &DB{
+		db: db,
+	}, nil
+}

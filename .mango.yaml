@@ -8,14 +8,14 @@ example:
   # Matrix of binaries to build
   build:
     platforms:
-      - os: darwin
-        arch: arm64
+      # - os: darwin
+      #   arch: arm64
       - os: linux
         arch: amd64
-      - os: linux
-        arch: arm64
-      - os: windows
-        arch: amd64
+      # - os: linux
+      #   arch: arm64
+      # - os: windows
+      #   arch: amd64
 
   # GRPC/REST API configuration
   api:
@@ -27,5 +27,7 @@ example:
 
   # Database configuration
   db:
-    engine: sqlite
-    url: mango.dev.db
+    # engine: sqlite
+    # url: mango.dev.db
+    engine: postgresql
+    url: postgres://postgres:password@localhost:5432/mangodb

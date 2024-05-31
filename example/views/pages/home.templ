@@ -9,9 +9,11 @@ import (
 templ Home(name string) {
   @layout.AppLayout(name) {
     @components.HeaderTemplate(name)
-      <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
+    <div class="p-4 rounded-xl text-center bg-blue-600">Hello, { name } !</div>
 
-      <img src={ helpers.AssetURL("logo.png") } class="m-auto max-w-[100%]" />
+    @components.ListUsers()
+
+    <img src={ helpers.AssetURL("logo.png") } class="m-auto max-w-[100%]" />
   }
 }
 

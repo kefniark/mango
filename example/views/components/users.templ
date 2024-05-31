@@ -1,0 +1,22 @@
+package components
+
+import (
+    "github.com/kefniark/mango/example/config"
+	"github.com/kefniark/mango/example/codegen/database"
+)
+
+func getUsers(ctx context.Context) []database.User {
+    db := config.GetDB(ctx)
+    if res, err := db.SearchUsers(ctx); err != nil {
+        return []database.User{}
+    } else {
+        return res
+    }
+}
+
+// templ Component
+templ ListUsers() {
+  for _, user := range getUsers(ctx) {
+    <div>Hello { user.Name }</div>
+  }
+}

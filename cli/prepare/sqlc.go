@@ -37,6 +37,7 @@ func (prepare SQLCPrepare) Execute(app string) error {
 	if err != nil {
 		return err
 	}
+	defer f.Close()
 
 	config, ok := (*prepare.Config)[app]
 	if !ok {

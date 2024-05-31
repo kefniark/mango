@@ -19,6 +19,7 @@ func cleanCmd(cfg *config.Config) *cobra.Command {
 			for name := range *cfg {
 				os.RemoveAll(path.Join(name, ".mango"))
 				os.RemoveAll(path.Join(name, "codegen"))
+				os.Remove(path.Join(name, "db", "main.go"))
 
 				// cleanup potential buf files
 				entries, _ := os.ReadDir(name)
