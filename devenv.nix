@@ -38,6 +38,8 @@
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
   '';
 
+  scripts.up.exec = "docker compose -f ./docker/example.yaml up";
+  scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
   scripts.mango.exec = "go run ./cli $*";
 
   enterShell = ''
@@ -73,6 +75,9 @@
 
   # https://devenv.sh/processes/
   # processes.ping.exec = "ping example.com";
+  containers.example.name = "example";
+  containers.example.copyToRoot = ./dist/example;
+  containers.example.startupCommand = "example-linux-amd64";
 
   # See full reference at https://devenv.sh/reference/options/
 }
