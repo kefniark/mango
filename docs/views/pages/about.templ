@@ -1,0 +1,20 @@
+package pages
+
+import (
+	"github.com/kefniark/mango/docs/views/layout"
+  "github.com/kefniark/mango/docs/config"
+)
+
+func init() {
+  config.RegisterPage("/about", templ.Handler(about()))
+}
+
+templ about() {
+  @layout.AppLayout("About") {
+    <div class="page active">
+      <div class="p-4 rounded-xl text-center bg-blue-600">Hello !</div>
+      <h3>This is the about page</h3>
+    </div>
+  }
+}
+
