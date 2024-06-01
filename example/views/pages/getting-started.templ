@@ -6,14 +6,14 @@ import (
 )
 
 func init() {
-  config.RegisterPage("/about", templ.Handler(about()))
+  config.RegisterPage("/getting-started", templ.Handler(gettingStarted()))
 }
 
-templ about() {
-  @layout.AppLayout("About") {
+templ gettingStarted() {
+  @layout.AppLayout("Mango Getting Started") {
     <div class="page active">
       <div class="p-4 rounded-xl text-center bg-blue-600">Hello !</div>
-      <h3>This is the about page</h3>
+      <h3>This is the GettingStarted page</h3>
     </div>
   }
 }

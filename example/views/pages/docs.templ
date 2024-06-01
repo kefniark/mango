@@ -6,14 +6,15 @@ import (
 )
 
 func init() {
-  config.RegisterPage("/about", templ.Handler(about()))
+  config.RegisterPage("/docs", templ.Handler(docs()))
+  config.RegisterPage("/examples", templ.Handler(docs()))
 }
 
-templ about() {
-  @layout.AppLayout("About") {
+templ docs() {
+  @layout.AppLayout("Mango Documentation") {
     <div class="page active">
       <div class="p-4 rounded-xl text-center bg-blue-600">Hello !</div>
-      <h3>This is the about page</h3>
+      <h3>This is the Docs page</h3>
     </div>
   }
 }

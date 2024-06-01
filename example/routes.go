@@ -7,12 +7,12 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/a-h/templ"
 	"github.com/go-chi/chi/v5"
 	"github.com/kefniark/mango/example/codegen/api/apiconnect"
 
 	"github.com/kefniark/mango/example/api/handlers"
-	"github.com/kefniark/mango/example/views/pages"
+	"github.com/kefniark/mango/example/config"
+	_ "github.com/kefniark/mango/example/views/pages"
 )
 
 const assetCache = 3600 * 24
@@ -45,6 +45,5 @@ func registerStaticFilesRoutes(r *chi.Mux) {
 }
 
 func registerPageRoutes(r *chi.Mux) {
-	r.Get("/", templ.Handler(pages.Home("Home")).ServeHTTP)
-	r.Get("/about", templ.Handler(pages.About("About")).ServeHTTP)
+	config.Register(r)
 }
