@@ -1,0 +1,30 @@
+package main
+
+import (
+	"context"
+	"os"
+	"path"
+	"strings"
+
+	cp "github.com/otiai10/copy"
+
+	"github.com/kefniark/mango/{{ .Name }}/config"
+	_ "github.com/kefniark/mango/{{ .Name }}/views/pages"
+)
+
+func main() {
+	for _, route := range config.Routes {
+		val := strings.TrimPrefix(route.Pattern, "/")
+
+		destFolder := path.Join("dist", "{{ .Name }}", val)
+		os.MkdirAll(destFolder, os.ModePerm)
+
+		destFile := path.Join(destFolder, "index.html")
+		f, _ := os.Create(destFile)
+		defer f.Close()
+
+		route.Handler.Component.Render(context.Background(), f)
+	}
+
+	cp.Copy("{{ .Name }}/assets", "dist/{{ .Name }}/assets")
+}

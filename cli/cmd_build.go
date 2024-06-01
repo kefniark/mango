@@ -19,6 +19,18 @@ func buildCmd(cfg *config.Config) *cobra.Command {
 			for name, cfg := range *cfg {
 				checkAppReady(name)
 
+				if cfg.Build.Static.Enable {
+					os.MkdirAll(path.Join("dist", name), os.ModePerm)
+
+					cmd := exec.Command("go", "run", path.Join(name, ".mango", "go", "builder.go"))
+					cmd.Stdout = os.Stdout
+					cmd.Stderr = os.Stderr
+					if err := cmd.Run(); err != nil {
+						config.Logger.Error().Err(err).Str("app", name).Msg("Build failed")
+					}
+					continue
+				}
+
 				for _, platform := range cfg.Build.Platforms {
 					os.MkdirAll(path.Join("dist", name), os.ModePerm)
 

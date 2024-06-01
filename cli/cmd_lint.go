@@ -20,7 +20,7 @@ func formatCmd(cfg *config.Config) *cobra.Command {
 
 				config.Logger.Info().Str("app", name).Msg("Lint code with Auto-fix ...")
 				if err := lintFormat(name); err != nil {
-					config.Logger.Err(err).Msg("Lint Failed")
+					config.Logger.Err(err).Str("app", name).Msg("Lint Failed")
 					return
 				}
 			}
@@ -79,10 +79,9 @@ func lint(name string) error {
 	}
 
 	golangciCmd := exec.Command("golangci-lint", "run", fmt.Sprintf("%s/...", dir), "--config", fmt.Sprintf("%s/.mango/go/golangci.yaml", dir))
-	golangciCmd.Dir = dir
 	golangciCmd.Stdout = os.Stdout
 	golangciCmd.Stderr = os.Stderr
-
+	golangciCmd.Dir = dir
 	return golangciCmd.Run()
 }
 
@@ -98,6 +97,10 @@ func lintFormat(name string) error {
 	golangciCmd.Dir = dir
 	if err = golangciCmd.Run(); err != nil {
 		return err
+	}
+
+	if _, err := os.Stat(fmt.Sprintf("%s/db/main.go", dir)); err != nil {
+		return nil
 	}
 
 	sqlcCmd := exec.Command("sqlc", "vet", "-f", fmt.Sprintf("%s/.mango/db/sqlc.yaml", dir))

@@ -36,6 +36,7 @@
     go mod download
     go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
     go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
+    go get "github.com/otiai10/copy"
   '';
 
   scripts.up.exec = "docker compose -f ./docker/example.yaml up";

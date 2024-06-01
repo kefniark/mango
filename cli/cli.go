@@ -20,12 +20,12 @@ func initExec(cfg *config.Config) {
 	preparer = append(preparer, prepare.NodeJSPrepare{})
 	preparer = append(preparer, prepare.OpenAPIPrepare{Config: cfg})
 	preparer = append(preparer, prepare.SQLCPrepare{Config: cfg})
-	preparer = append(preparer, prepare.StaticFilePrepare{})
+	preparer = append(preparer, prepare.StaticBuildPrepare{Config: cfg})
+	preparer = append(preparer, prepare.AssetsFilePrepare{})
 
 	// generater
 	generater = append(generater, generate.ProtoGenerator{})
 	generater = append(generater, generate.SQLCGenerator{})
-	generater = append(generater, generate.TailwindGenerator{})
 	generater = append(generater, generate.TemplGenerator{})
 }
 

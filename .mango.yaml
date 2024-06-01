@@ -1,9 +1,19 @@
+docs:
+  title: Mango Documentation
+  description: This is the documentation of Mango
+  version: 1.0.0
+  port: 5501
+
+  build:
+    static:
+      enable: true
+
 example:
   # Server configuration
   title: Mango Demo
   description: This is a demo Mango API
   version: 1.0.0
-  port: 8080
+  port: 5500
 
   # Matrix of binaries to build
   build:

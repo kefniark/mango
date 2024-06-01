@@ -15,7 +15,7 @@ Focus on building web services, we take care of the dev tools.
   - Database Access based on [SQLC](https://github.com/sqlc-dev/sqlc) (Support sqlite, postgres, mysql)
   - Support static content (Markdown)
   - Support dynamic HTML content with [Templ](https://github.com/a-h/templ)/[Htmx](https://htmx.org/)
-  - Modern UI based on [Tailwind](https://tailwindcss.com/) / [DaisyUI](https://daisyui.com/)
+  - Modern UI based on [BeerCSS](https://www.beercss.com/) (Material Design)
 - ✨ Smooth Dev Experience:
   - Live-Reload with [Air](https://github.com/cosmtrek/air)
   - Reproducible Dev Environment based on [Devenv](https://devenv.sh/) (Nix + Devcontainer)
@@ -79,3 +79,6 @@ devenv shell # not required if you use direnv
 - Infra
   - [ ] Make it compatible with devenv container & nixpacks
   - [ ] Deploy & Document (auto build docker images / binaries) for (Self-hosted, Heroku, Fly.io, GCP, ...)
+- Mango itself
+  - [x] Use Mango to generate the static docs of mango
+  - [ ] Publish docs on github pages

@@ -1,48 +1,42 @@
 package prepare
 
 import (
-	"embed"
-	"io/fs"
 	"os"
 	"path"
+	"text/template"
 
 	"github.com/kefniark/mango/cli/config"
 )
 
-//go:embed static/**/*
-var static embed.FS
+type StaticBuildPrepare struct {
+	Config *config.Config
+}
 
-type StaticFilePrepare struct{}
-
-func (prepare StaticFilePrepare) Name() string {
+func (prepare StaticBuildPrepare) Name() string {
 	return "Static Preparer"
 }
 
-func (prepare StaticFilePrepare) Execute(app string) error {
-	copySubFolder(app, "")
-	return nil
+func (prepare StaticBuildPrepare) Execute(app string) error {
+	tmpl, err := template.ParseFS(templates, "templates/static-build.go.tmpl")
+	if err != nil {
+		return err
+	}
+
+	folderDB := path.Join(app, ".mango/go")
+	if err = os.MkdirAll(folderDB, os.ModePerm); err != nil {
+		return err
+	}
+
+	config.Logger.Debug().Str("app", app).Str("path", path.Join(folderDB, "builder.go")).Msg("Generated File")
+	f, err := os.Create(path.Join(folderDB, "builder.go"))
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	return tmpl.Execute(f, StaticArgs{Name: app})
 }
 
-func copySubFolder(app string, folder string) {
-	files, err := static.ReadDir(path.Join("static", folder))
-	if err != nil {
-		panic(err)
-	}
-
-	for _, file := range files {
-		if file.IsDir() {
-			copySubFolder(app, path.Join(folder, file.Name()))
-			continue
-		}
-
-		os.MkdirAll(path.Join(app, ".mango", folder), os.ModePerm)
-
-		config.Logger.Debug().Str("app", app).Str("path", path.Join(app, ".mango", folder, file.Name())).Msg("Generated File")
-		f, err := fs.ReadFile(static, path.Join("static", folder, file.Name()))
-		if err != nil {
-			continue
-		}
-
-		os.WriteFile(path.Join(app, ".mango", folder, file.Name()), f, os.ModePerm)
-	}
+type StaticArgs struct {
+	Name string
 }

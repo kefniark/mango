@@ -11,12 +11,17 @@ type ConfigAPIServer struct {
 	URL  string `mapstructure:"url"`
 }
 
+type ConfigBuildStatic struct {
+	Enable bool `mapstructure:"enable"`
+}
+
 type ConfigBuildPlatform struct {
 	Os   string `mapstructure:"os"`
 	Arch string `mapstructure:"arch"`
 }
 
 type ConfigBuild struct {
+	Static    ConfigBuildStatic     `mapstructure:"static"`
 	Platforms []ConfigBuildPlatform `mapstructure:"platforms"`
 }
 

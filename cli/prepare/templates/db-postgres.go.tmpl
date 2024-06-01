@@ -31,8 +31,8 @@ func (db *DB) Client() *database.Queries {
 
 func New() (*DB, error) {
 	url := "{{ .URL }}"
-	if database_url, ok := os.LookupEnv("DATABASE_URL"); ok {
-		url = database_url
+	if databaseURL, ok := os.LookupEnv("DATABASE_URL"); ok {
+		url = databaseURL
 	}
 
 	pool, err := pgxpool.New(context.Background(), url)
