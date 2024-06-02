@@ -41,7 +41,7 @@
 
   scripts.up.exec = "docker compose -f ./docker/example.yaml up";
   scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
-  scripts.mango.exec = "go run ./cli $*";
+  scripts.mango.exec = "go run ./pkg/mango-cli $*";
 
   enterShell = ''
     prepare

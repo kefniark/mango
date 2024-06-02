@@ -67,6 +67,7 @@ devenv shell # not required if you use direnv
 - Project
   - [x] Web UI (HTMX/Templ)
   - [x] Handle assets/public folder
+  - [x] Markdown -> Templ auto-generation (icon, mermaid, code, ...)
   - [ ] Background Task (queue)
   - [ ] Doc generation
   - [ ] Tests / 2e2

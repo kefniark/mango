@@ -4,9 +4,9 @@ import (
 	"os"
 	"path"
 
-	"github.com/kefniark/mango/cli/config"
-	"github.com/kefniark/mango/cli/generate"
-	"github.com/kefniark/mango/cli/prepare"
+	"github.com/kefniark/mango/pkg/mango-cli/config"
+	"github.com/kefniark/mango/pkg/mango-cli/generate"
+	"github.com/kefniark/mango/pkg/mango-cli/prepare"
 	"github.com/spf13/cobra"
 )
 
@@ -26,6 +26,7 @@ func initExec(cfg *config.Config) {
 	// generater
 	generater = append(generater, generate.ProtoGenerator{})
 	generater = append(generater, generate.SQLCGenerator{})
+	generater = append(generater, generate.MarkdownGenerator{})
 	generater = append(generater, generate.TemplGenerator{})
 }
 

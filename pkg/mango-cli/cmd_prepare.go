@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/kefniark/mango/cli/config"
+	"github.com/kefniark/mango/pkg/mango-cli/config"
 	"github.com/spf13/cobra"
 )
 

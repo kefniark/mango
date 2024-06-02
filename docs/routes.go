@@ -9,6 +9,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 
+	_ "github.com/kefniark/mango/docs/codegen/views"
 	"github.com/kefniark/mango/docs/config"
 	_ "github.com/kefniark/mango/docs/views/pages"
 )

@@ -6,7 +6,7 @@ import (
 	"path"
 	"text/template"
 
-	"github.com/kefniark/mango/cli/config"
+	"github.com/kefniark/mango/pkg/mango-cli/config"
 )
 
 type OpenAPIPrepare struct {

@@ -1,0 +1,19 @@
+package views
+
+import (
+  "github.com/kefniark/mango/{{ .Name }}/views/layout"
+  "github.com/kefniark/mango/{{ .Name }}/config"
+)
+
+func init() {
+{{range $entry := .Entries}}  config.RegisterPage("{{ $entry.URL }}", templ.Handler({{ $entry.Function }}()))
+{{end}}
+}
+
+{{range $entry := .Entries}}
+templ {{ $entry.Function }}() {
+  @layout.AppLayout("{{ $entry.Title }}") {
+    @templ.Raw(`{{ $entry.Content }}`)
+  }
+}
+{{end}}

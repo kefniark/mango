@@ -6,7 +6,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/kefniark/mango/cli/config"
+	"github.com/kefniark/mango/pkg/mango-cli/config"
 )
 
 type SQLCGenerator struct{}

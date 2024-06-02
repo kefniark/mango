@@ -6,7 +6,7 @@ import (
 	"os"
 	"path"
 
-	"github.com/kefniark/mango/cli/config"
+	"github.com/kefniark/mango/pkg/mango-cli/config"
 )
 
 //go:embed static/**/*

@@ -5,6 +5,7 @@ go 1.22.1
 require (
 	connectrpc.com/connect v1.16.2
 	github.com/a-h/templ v0.2.707
+	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/go-chi/chi/v5 v5.0.12
 	github.com/go-chi/cors v1.2.1
 	github.com/google/uuid v1.6.0
@@ -13,6 +14,11 @@ require (
 	github.com/rs/zerolog v1.33.0
 	github.com/spf13/cobra v1.8.0
 	github.com/spf13/viper v1.18.2
+	github.com/yuin/goldmark v1.4.15
+	github.com/yuin/goldmark-emoji v1.0.2
+	github.com/yuin/goldmark-highlighting/v2 v2.0.0-20230729083705-37449abec8cc
+	github.com/yuin/goldmark-meta v1.1.0
+	go.abhg.dev/goldmark/mermaid v0.5.0
 	golang.org/x/net v0.25.0
 	google.golang.org/grpc v1.64.0
 	google.golang.org/protobuf v1.34.1
@@ -21,6 +27,7 @@ require (
 require (
 	buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go v1.32.0-20240212200630-3014d81c3a48.1 // indirect
 	github.com/bufbuild/protovalidate-go v0.5.2 // indirect
+	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/fsnotify/fsnotify v1.7.0 // indirect
 	github.com/google/gnostic v0.7.0 // indirect
 	github.com/google/gnostic-models v0.6.9-0.20230804172637-c7be7c783f49 // indirect
