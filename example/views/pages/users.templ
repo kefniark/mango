@@ -1,0 +1,59 @@
+package pages
+
+import (
+	"github.com/kefniark/mango/example/views/layout"
+	"github.com/kefniark/mango/example/views/components"
+  "github.com/kefniark/mango/example/config"
+)
+
+func init() {
+  config.RegisterPage("/users", templ.Handler(users("Users")))
+}
+
+templ users(name string) {
+  @layout.AppLayout(name) {
+    <div class="page active" style="padding: 0 20px">
+      @components.ListUsers()
+    
+      <nav>
+        <button data-ui="#addUserModal">Add New User</button>
+
+        <button
+          class="border"
+          hx-post="api/Users/search"
+          hx-ext="json-enc"
+          hx-target="#json"
+        >Load API</button>
+        <div id="json" style="display: block"></div>
+      </nav>
+    </div>
+
+    <dialog id="addUserModal">
+      <h5>Add User</h5>
+      <form id="addUserModalForm">
+        <div class="field border fill">
+          <input type="hidden" name="id" value="" />
+          <input type="text" name="name" value="" />
+          <span class="helper">Name of the new user</span>
+        </div>
+        <div class="field border fill">
+          <input type="text" name="bio" value="" />
+          <span class="helper">Bio of the new user</span>
+        </div>
+      </form>
+
+      <nav class="right-align no-space" style="gap: 5px">
+        <button class="border" data-ui="#addUserModal">Cancel</button>
+        <button
+          class="primary"
+          id="addUserButton"
+          data-ui="#addUserModal"
+          hx-include="#addUserModalForm"  
+          hx-post="api/Users/set"
+          hx-ext="json-enc"
+        >Create</button>
+      </nav>
+    </dialog>
+  }
+}
+

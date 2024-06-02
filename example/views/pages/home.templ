@@ -1,9 +1,7 @@
 package pages
 
 import (
-  "github.com/kefniark/mango/example/views/helpers"
 	"github.com/kefniark/mango/example/views/layout"
-	"github.com/kefniark/mango/example/views/components"
   "github.com/kefniark/mango/example/config"
 )
 
@@ -12,26 +10,22 @@ func init() {
 }
 
 templ home(name string) {
-  @layout.AppLayout(name) {
-    
+  @layout.AppLayout(name) {   
     <div class="page active" style="width: 100%; height: 100%; max-width: 800px; margin: auto;" class="middle-align center-align">
       <article class="middle-align center-align">
         <div style="text-align: center">
-          <img src={ helpers.AssetURL("logo.png") } class="m-auto" style="max-height: 320px"/>
+          <img src="assets/logo.png" class="m-auto" style="max-height: 320px"/>
 
           <h3 style="display: block">Welcome to Mango</h3>
           <p>The Juicy Golang Web Framework</p>
           <div class="space"></div>
           
           <nav class="center-align">
-            <a class="button" href="/getting-started">Getting Started</a>
-            <a class="button border round" href="/docs">Docs</a>
+            <a class="button" href="./users">Get Users</a>
           </nav>
         </div>
       </article>
     </div>
-
-    @components.ListUsers()
   }
 }
 

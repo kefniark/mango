@@ -16,7 +16,23 @@ func getUsers(ctx context.Context) []database.User {
 
 // templ Component
 templ ListUsers() {
+  <div class={classListUsers()}>
   for _, user := range getUsers(ctx) {
-    <div>Hello { user.Name }</div>
+    <article>
+      <div class="row">
+        <img class="square large" src="assets/favicon.png"/>
+        <div class="max">
+          <h6>{ user.Name }</h6>
+          <p>{ user.Bio }</p>
+        </div>
+      </div>
+    </article>
   }
+  </div>
+}
+
+css classListUsers() {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
 }

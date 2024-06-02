@@ -37,8 +37,8 @@ templ AppLayout(name string) {
 
 templ extraMeta() {
   if url := os.Getenv("BASE_URL"); url != "" {
-    <base href={ url }>
+    <base href={ url } />
   } else {
-    <base href="/">
+    <base href="/" />
   }
 }

@@ -1,9 +1,12 @@
 package main
 
 import (
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
+	"github.com/kefniark/mango/example/config"
 )
 
 const corsMaxAge = 3600
@@ -17,6 +20,7 @@ func registerMiddlewares(r *chi.Mux) {
 	r.Use(middleware.RedirectSlashes)
 	r.Use(middleware.Heartbeat("/healthz"))
 	r.Use(middleware.Timeout(defaultTimeout))
+	r.Use(skipLayoutMiddleware)
 
 	r.Use(cors.Handler(cors.Options{
 		// AllowedOrigins:   []string{"https://foo.com"}, // Use this to allow specific origin hosts
@@ -28,4 +32,12 @@ func registerMiddlewares(r *chi.Mux) {
 		AllowCredentials: false,
 		MaxAge:           corsMaxAge,
 	}))
+}
+
+func skipLayoutMiddleware(h http.Handler) http.Handler {
+	return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
+		val := r.Header.Get("Layout")
+		ctx := config.WithLayout(r.Context(), val != "false")
+		h.ServeHTTP(rw, r.WithContext(ctx))
+	})
 }

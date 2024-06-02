@@ -32,6 +32,19 @@ func GetLogger(ctx context.Context) *zerolog.Logger {
 	panic(errors.New("no logger in context"))
 }
 
-func WithLogger(ctx context.Context, db *zerolog.Logger) context.Context {
-	return context.WithValue(ctx, loggerContextKey, db)
+func WithLogger(ctx context.Context, logger *zerolog.Logger) context.Context {
+	return context.WithValue(ctx, loggerContextKey, logger)
+}
+
+const showLayoutContextKey contextKey = "MangoLayout"
+
+func HasLayout(ctx context.Context) bool {
+	if val, ok := ctx.Value(showLayoutContextKey).(bool); ok {
+		return val
+	}
+	return true
+}
+
+func WithLayout(ctx context.Context, value bool) context.Context {
+	return context.WithValue(ctx, showLayoutContextKey, value)
 }
