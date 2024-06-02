@@ -51,4 +51,4 @@ gitGraph
    commit
 ```
 
-![Image](/assets/logo.png)
+![Image](assets/logo.png)
