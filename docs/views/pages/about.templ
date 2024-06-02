@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-  config.RegisterPage("/test/about", templ.Handler(about()))
+  config.RegisterPage("/about", templ.Handler(about()))
 }
 
 templ about() {
