@@ -11,12 +11,17 @@ import (
 )
 
 func buildCmd(cfg *config.Config) *cobra.Command {
-	return &cobra.Command{
+	var filter string
+	cmd := &cobra.Command{
 		Use:   "build",
 		Short: "Build Mango to a golang binaries",
 		Run: func(cmd *cobra.Command, args []string) {
 			config.Logger.Info().Msg("Build Apps ...")
 			for name, cfg := range *cfg {
+				if filter != "" && filter != name {
+					continue
+				}
+
 				checkAppReady(name)
 
 				if cfg.Build.Static.Enable {
@@ -49,4 +54,6 @@ func buildCmd(cfg *config.Config) *cobra.Command {
 			config.Logger.Info().Msg("Build Completed !")
 		},
 	}
+	cmd.Flags().StringVarP(&filter, "filter", "f", "", "Only generate certain app")
+	return cmd
 }
