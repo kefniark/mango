@@ -42,6 +42,11 @@ func (generator MarkdownGenerator) Execute(app string) error {
 		return err
 	}
 
+	if _, err := os.Stat(path.Join(app, "contents")); err != nil {
+		config.Logger.Debug().Str("app", app).Str("path", path.Join(app, "contents")).Msg("Skip Generate Templ ...")
+		return nil
+	}
+
 	config.Logger.Debug().Str("app", app).Str("path", path.Join(folderMango, "markdown.templ")).Msg("Generate Mardown->Templ File")
 	f, err := os.Create(path.Join(folderMango, "markdown.templ"))
 	if err != nil {
