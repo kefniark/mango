@@ -45,12 +45,13 @@ jobs:
       - name: Build docs
         shell: devenv shell bash -- -e {0}
         run: |
+          export BASE_URL="https://kefniark.github.io/mango/"
           mango generate --filter docs
           mango build --filter docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: 'dist/docs'
+          path: "dist/docs"
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
