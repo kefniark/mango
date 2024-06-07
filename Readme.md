@@ -86,7 +86,7 @@ devenv shell # not required if you use direnv
   - [ ] Docker compose integration
   - [ ] Infra dev tools (graphana)
 - Infra
-  - [ ] Make it compatible with devenv container & nixpacks
+  - [ ] Make it compatible with devenv container
   - [ ] Deploy & Document (auto build docker images / binaries) for (Self-hosted, Heroku, Fly.io, GCP, ...)
 - Mango itself
   - [x] Use Mango to generate the static docs of mango
