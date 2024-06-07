@@ -14,7 +14,3 @@ plugins:
     out: codegen/api
     strategy: all
     opt: paths=source_relative
-  - local: protoc-gen-connect-openapi
-    out: codegen/api
-    strategy: all
-    opt: base=.mango/api/openapi.yaml,content-types=json,path=api.openapi.yaml

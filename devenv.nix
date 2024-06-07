@@ -7,6 +7,7 @@
   packages = [
     # Golang
     pkgs.go_1_22
+    pkgs.gotools
     pkgs.golangci-lint
 
     # Golang Dev Tools
@@ -28,8 +29,7 @@
   # https://devenv.sh/scripts/
   scripts.prepare.exec = ''
     go mod download
-    go get "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
-    go install "github.com/sudorandom/protoc-gen-connect-openapi@v0.7.2"
+    # go install github.com/sudorandom/protoc-gen-connect-openapi@main
     go get "github.com/otiai10/copy"
   '';
 
