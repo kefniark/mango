@@ -6,6 +6,14 @@ Focus on building web services, we take care of the dev tools.
 
 !! **WIP** Under construction, use at your own risk 😸 !!
 
+## Goals
+
+Over time, modern Web Frameworks are becoming more and more complex (tech stack, build time, frontend framework, graphql, ...), this comes with a cost in development time and developer sanity.
+
+The idea behind Mango is take the opposite direction, keep the simplicity of static website generator like Hugo or Vitepress, and add the bare minimum on top to build dynamic websites and api.
+
+Avoid abstraction all over the place, embrace **KISS** fully and get things done!
+
 ## Features
 
 - ❄️ Unified commands (**Mango CLI**) and configuration (`.mango.yaml`)

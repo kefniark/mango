@@ -1,6 +1,7 @@
 package prepare
 
 import (
+	"fmt"
 	"os"
 	"path"
 	"text/template"
@@ -14,7 +15,9 @@ type AirConfig struct {
 	ProxyPort int
 }
 
-type AirPrepare struct{}
+type AirPrepare struct {
+	Config *config.Config
+}
 
 func (prepare AirPrepare) Name() string {
 	return "AIR Preparer"
@@ -39,10 +42,15 @@ func (prepare AirPrepare) Execute(app string) error {
 	}
 	defer f.Close()
 
+	cfg, ok := (*prepare.Config)[app]
+	if !ok {
+		return fmt.Errorf("cannot find config %s", app)
+	}
+
 	err = tmpl.Execute(f, AirConfig{
 		App:       app,
-		AppPort:   5600,
-		ProxyPort: 5500,
+		AppPort:   cfg.Port + 10000,
+		ProxyPort: cfg.Port,
 	})
 
 	return err

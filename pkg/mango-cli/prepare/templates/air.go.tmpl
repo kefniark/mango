@@ -4,7 +4,7 @@ tmp_dir = ".mango/tmp"
 
 [build]
   args_bin = []
-  bin = "{{ .App }}/.mango/server-dev"
+  full_bin = "ENV=DEV PROXY_PORT={{ .ProxyPort }} PORT={{ .AppPort }} {{ .App }}/.mango/server-dev"
   cmd = "mango generate --filter {{ .App }} && go build -o ./{{ .App }}/.mango/server-dev ./{{ .App }}"
   delay = 50
   exclude_dir = ["dist", "codegen", ".mango"]
@@ -12,7 +12,7 @@ tmp_dir = ".mango/tmp"
   exclude_regex = ["_templ.go", "_test.go"]
   exclude_unchanged = false
   follow_symlink = false
-  full_bin = ""
+  bin = ""
   include_dir = []
   include_ext = ["md", "go", "tpl", "tmpl", "templ", "html", "proto"]
   include_file = []

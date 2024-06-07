@@ -17,10 +17,13 @@ import (
 	"golang.org/x/net/http2/h2c"
 )
 
-const addr = ":5600"
 const defaultTimeout = 5 * time.Second
 
 func main() {
+	addr := ":5600"
+	if port, ok := os.LookupEnv("PORT"); ok {
+		addr = fmt.Sprintf(":%s", port)
+	}
 	logger, db := newServerOptions()
 	logger.Debug().Msg("Initialize Server")
 
@@ -41,7 +44,7 @@ func main() {
 	registerPageRoutes(r)
 
 	// HTTP listen and serve
-	logger.Info().Msgf("Listening on %s", addr)
+	logger.Info().Msgf("Listening on %s", config.AppPublicAddr())
 	server := &http.Server{
 		Addr:              addr,
 		ReadHeaderTimeout: defaultTimeout,
@@ -81,7 +84,13 @@ func newServerOptions() (*zerolog.Logger, *database.Queries) {
 }
 
 func newLogger() *zerolog.Logger {
-	logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).Level(zerolog.DebugLevel)
+	// Pretty Stdout for development
+	if config.IsDev() {
+		logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).Level(zerolog.DebugLevel)
+		return &logger
+	}
 
+	// Structured JSON Logger for production
+	logger := zerolog.New(os.Stdout).Level(zerolog.InfoLevel).With().Timestamp().Caller().Stack().Logger()
 	return &logger
 }

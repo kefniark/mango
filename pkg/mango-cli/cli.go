@@ -15,7 +15,7 @@ var generater = []config.Executer{}
 
 func initExec(cfg *config.Config) {
 	// preparer
-	preparer = append(preparer, prepare.AirPrepare{})
+	preparer = append(preparer, prepare.AirPrepare{Config: cfg})
 	preparer = append(preparer, prepare.DBPrepare{Config: cfg})
 	preparer = append(preparer, prepare.NodeJSPrepare{})
 	preparer = append(preparer, prepare.OpenAPIPrepare{Config: cfg})

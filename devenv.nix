@@ -7,25 +7,19 @@
   packages = [
     # Golang
     pkgs.go_1_22
-    pkgs.gotools
     pkgs.golangci-lint
+
+    # Golang Dev Tools
+    pkgs.air
+    pkgs.sqlc
+    pkgs.templ
 
     # Protobuf & Code Generation
     pkgs.protobuf
-    # pkgs.buf need 1.32
+    pkgs.buf
     pkgs.protoc-gen-go
     pkgs.protoc-gen-go-grpc
     pkgs.protoc-gen-connect-go
-
-    # SQLC
-    pkgs.sqlc
-    pkgs.air
-
-    # Templ
-    pkgs.templ
-
-    # TailwindCSS & DaisyUI
-    pkgs.nodejs_22
 
     # Linters
     pkgs.nodePackages.prettier
@@ -39,8 +33,8 @@
     go get "github.com/otiai10/copy"
   '';
 
-  scripts.up.exec = "docker compose -f ./docker/example.yaml up";
-  scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
+  # scripts.up.exec = "docker compose -f ./docker/example.yaml up";
+  # scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
   scripts.mango.exec = "go run ./pkg/mango-cli $*";
 
   enterShell = ''
@@ -64,21 +58,20 @@
   # '';
 
   # https://devenv.sh/services/
-  services.postgres.enable = true;
-
+  # services.postgres.enable = true;
 
   # https://devenv.sh/languages/
-  languages.nix.enable = true;
-  languages.go.enable = true;
+  # languages.nix.enable = true;
+  # languages.go.enable = true;
 
   # https://devenv.sh/pre-commit-hooks/
   # pre-commit.hooks.shellcheck.enable = true;
 
   # https://devenv.sh/processes/
   # processes.ping.exec = "ping example.com";
-  containers.example.name = "example";
-  containers.example.copyToRoot = ./dist/example;
-  containers.example.startupCommand = "example-linux-amd64";
+  # containers.example.name = "example";
+  # containers.example.copyToRoot = ./dist/example;
+  # containers.example.startupCommand = "example-linux-amd64";
 
   # See full reference at https://devenv.sh/reference/options/
 }

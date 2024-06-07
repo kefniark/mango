@@ -3,8 +3,8 @@ package layout
 templ header() {
     <header>
         <nav>
-          <a href="/" style="margin-right: auto">
-            <img src="/assets/favicon.png" height="48"/>
+          <a href="./" style="margin-right: auto">
+            <img src="assets/favicon.png" height="48"/>
             <span style="text-transform: uppercase; font-weight: bold; font-family: sans-serif; font-size: x-large; margin-left: 10px">
             Mango
             </span>
@@ -12,7 +12,7 @@ templ header() {
           </a>
           
           <a
-            hx-get="/users"
+            hx-get="./users"
             hx-headers='{"Layout": "false"}'
             hx-target="#main-container"
             hx-trigger="click, click from:#addUserButton delay:100ms"
@@ -25,7 +25,7 @@ templ header() {
           </a>
 
           <a
-            hx-get="/profile"
+            hx-get="./profile"
             hx-headers='{"Layout": "false"}'
             hx-target="#main-container"
             hx-replace-url="true"
