@@ -1,4 +1,4 @@
-FROM gcr.io/distroless/static-debian12
+FROM gcr.io/distroless/static-debian11
 WORKDIR /
 USER nonroot
 COPY ./dist/example/example-linux-amd64 /app
