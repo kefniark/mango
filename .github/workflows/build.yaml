@@ -47,7 +47,6 @@ jobs:
         run: |
           mango generate
           mango build
-
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v5
@@ -57,9 +56,8 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-
-      - uses: themarkwill/coolify-actions@v0.0.4
-        with:
-          coolify-url: ${{ secrets.COOLIFY_URL }}
-          coolify-app-id: ${{ secrets.COOLIFY_APP_ID }}
-          coolify-token: ${{ secrets.COOLIFY_TOKEN }}
+      - name: Trigger Deployment
+        run: |
+          curl --request GET \
+            --url ${{ secrets.COOLIFY_URL }}/v1/deploy?uuid=${{ secrets.COOLIFY_APP_ID }}&force=false \
+            --header 'Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}'
