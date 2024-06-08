@@ -6,7 +6,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/cors"
-	"github.com/kefniark/mango/example/config"
+	"github.com/kefniark/mango/app/example/config"
 )
 
 const corsMaxAge = 3600

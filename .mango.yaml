@@ -1,4 +1,4 @@
-docs:
+app/docs:
   title: Mango Documentation
   description: This is the documentation of Mango
   version: 1.0.0
@@ -8,7 +8,7 @@ docs:
     static:
       enable: true
 
-example:
+app/example:
   # Server configuration
   title: Mango Demo
   description: This is a demo Mango API

@@ -7,7 +7,7 @@ import (
 
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/jackc/pgx/v5/stdlib"
-	"github.com/kefniark/mango/example/codegen/database"
+	"github.com/kefniark/mango/app/example/codegen/database"
 
 	// embed database schema.
 	_ "embed"

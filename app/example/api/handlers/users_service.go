@@ -5,9 +5,9 @@ import (
 
 	"connectrpc.com/connect"
 	"github.com/google/uuid"
-	"github.com/kefniark/mango/example/codegen/api"
-	"github.com/kefniark/mango/example/codegen/database"
-	"github.com/kefniark/mango/example/config"
+	"github.com/kefniark/mango/app/example/codegen/api"
+	"github.com/kefniark/mango/app/example/codegen/database"
+	"github.com/kefniark/mango/app/example/config"
 	"google.golang.org/protobuf/types/known/emptypb"
 )
 

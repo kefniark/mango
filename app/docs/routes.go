@@ -8,24 +8,13 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/kefniark/mango/example/codegen/api/apiconnect"
 
-	"github.com/kefniark/mango/example/api/handlers"
-	"github.com/kefniark/mango/example/config"
-	_ "github.com/kefniark/mango/example/views/pages"
+	_ "github.com/kefniark/mango/app/docs/codegen/views"
+	"github.com/kefniark/mango/app/docs/config"
+	_ "github.com/kefniark/mango/app/docs/views/pages"
 )
 
 const assetCache = 3600 * 24
-
-func registerAPIRoutes(r *chi.Mux) {
-	r.Route("/api", func(r chi.Router) {
-		path, handler := apiconnect.NewUsersHandler(handlers.NewUserService())
-		r.Mount(path, http.StripPrefix("/api", handler))
-
-		path, handler = apiconnect.NewProductsHandler(handlers.NewProductService())
-		r.Mount(path, http.StripPrefix("/api", handler))
-	})
-}
 
 //go:embed assets
 var embeddedAssetsFS embed.FS

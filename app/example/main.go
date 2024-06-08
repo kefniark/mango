@@ -9,9 +9,9 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/google/uuid"
-	"github.com/kefniark/mango/example/codegen/database"
-	"github.com/kefniark/mango/example/config"
-	"github.com/kefniark/mango/example/db"
+	"github.com/kefniark/mango/app/example/codegen/database"
+	"github.com/kefniark/mango/app/example/config"
+	"github.com/kefniark/mango/app/example/db"
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"

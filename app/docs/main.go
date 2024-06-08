@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/kefniark/mango/docs/config"
+	"github.com/kefniark/mango/app/docs/config"
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"

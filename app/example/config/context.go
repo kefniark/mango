@@ -4,7 +4,7 @@ import (
 	"context"
 	"errors"
 
-	"github.com/kefniark/mango/example/codegen/database"
+	"github.com/kefniark/mango/app/example/codegen/database"
 	"github.com/rs/zerolog"
 )
 

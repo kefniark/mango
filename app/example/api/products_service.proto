@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "google/protobuf/empty.proto";
 
-option go_package = "github.com/kefniark/mango/example/codegen/api";
+option go_package = "github.com/kefniark/mango/app/example/codegen/api";
 
 service Products {
     // Create or Update Product
