@@ -57,3 +57,9 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+
+      - uses: themarkwill/coolify-actions@v0.0.4
+        with:
+          coolify-url: ${{ secrets.COOLIFY_URL }}
+          coolify-app-id: ${{ secrets.COOLIFY_APP_ID }}
+          coolify-token: ${{ secrets.COOLIFY_TOKEN }}
