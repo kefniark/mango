@@ -21,7 +21,11 @@ example:
       # - os: darwin
       #   arch: arm64
       - os: linux
-        arch: amd64
+        arch: 386
+      # - os: linux
+      #   arch: amd64
+      # - os: linux
+      #   arch: arm64
       # - os: linux
       #   arch: arm64
       # - os: windows

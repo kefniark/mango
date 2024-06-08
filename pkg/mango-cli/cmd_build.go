@@ -40,7 +40,7 @@ func buildCmd(cfg *config.Config) *cobra.Command {
 					os.MkdirAll(path.Join("dist", name), os.ModePerm)
 
 					cmd := exec.Command(
-						"env", fmt.Sprintf("GOOS=%s", platform.Os), fmt.Sprintf("GOARCH=%s", platform.Arch),
+						"env", fmt.Sprintf("GOOS=%s", platform.Os), fmt.Sprintf("GOARCH=%s", platform.Arch), "CGOENABLED=0",
 						"go", "build", "-ldflags", "-s -w", "-o", path.Join("dist", name, fmt.Sprintf("%s-%s-%s", name, platform.Os, platform.Arch)), fmt.Sprintf("./%s", name))
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr

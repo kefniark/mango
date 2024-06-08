@@ -1,0 +1,10 @@
+version: "3.1"
+
+services:
+  example:
+    build:
+      context: ..
+      dockerfile: docker/example.Dockerfile
+    # command: sleep 10000
+    ports:
+      - "5600:5600"
