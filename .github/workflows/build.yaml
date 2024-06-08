@@ -56,8 +56,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-      - name: Trigger Deployment
+      - name: Trigger Coolify Deployment
         run: |
-          curl --request GET \
-            --url ${{ secrets.COOLIFY_URL }}/v1/deploy?uuid=${{ secrets.COOLIFY_APP_ID }}&force=false \
-            --header 'Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}'
+          curl -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" "${{ secrets.COOLIFY_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_APP_ID }}&force=false"
