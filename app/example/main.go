@@ -15,6 +15,8 @@ import (
 	"github.com/rs/zerolog"
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
+
+	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
 const defaultTimeout = 5 * time.Second
@@ -30,6 +32,8 @@ func main() {
 	// Router
 	r := chi.NewRouter()
 
+	setupNewrelic(r)
+
 	// Build Default Context (DB, Logger)
 	r.Use(func(h http.Handler) http.Handler {
 		return http.HandlerFunc(func(rw http.ResponseWriter, r *http.Request) {
@@ -38,6 +42,7 @@ func main() {
 			h.ServeHTTP(rw, r.WithContext(ctx))
 		})
 	})
+
 	registerMiddlewares(r)
 	registerAPIRoutes(r)
 	registerStaticFilesRoutes(r)
@@ -93,4 +98,39 @@ func newLogger() *zerolog.Logger {
 	// Structured JSON Logger for production
 	logger := zerolog.New(os.Stdout).Level(zerolog.InfoLevel).With().Timestamp().Caller().Stack().Logger()
 	return &logger
+}
+
+func setupNewrelic(r *chi.Mux) {
+	key := os.Getenv("NEW_RELIC_LICENSE_KEY")
+	if key == "" {
+		return
+	}
+	app, err := newrelic.NewApplication(
+		newrelic.ConfigAppName("Mango"),
+		newrelic.ConfigLicense(key),
+		newrelic.ConfigAppLogEnabled(true),
+		newrelic.ConfigAppLogForwardingEnabled(true),
+		newrelic.ConfigAppLogMetricsEnabled(true),
+		newrelic.ConfigDistributedTracerEnabled(true),
+		newrelic.ConfigModuleDependencyMetricsEnabled(true),
+	)
+	if err != nil {
+		panic(err)
+	}
+
+	r.Use(func(next http.Handler) http.Handler {
+		fn := func(w http.ResponseWriter, r *http.Request) {
+			txn := app.StartTransaction(r.Method + r.URL.RequestURI())
+			defer txn.End()
+
+			txn.SetWebRequestHTTP(r)
+
+			w = txn.SetWebResponse(w)
+			r = newrelic.RequestWithTransactionContext(r, txn)
+
+			next.ServeHTTP(w, r)
+		}
+
+		return http.HandlerFunc(fn)
+	})
 }

@@ -33,8 +33,8 @@
     go get "github.com/otiai10/copy"
   '';
 
-  # scripts.up.exec = "docker compose -f ./docker/example.yaml up";
-  # scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
+  scripts.up.exec = "docker compose -f ./docker/example.yaml up";
+  scripts.down.exec = "docker compose -f ./docker/example.yaml down -v";
   scripts.mango.exec = "go run ./pkg/mango-cli $*";
 
   enterShell = ''
