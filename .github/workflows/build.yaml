@@ -57,8 +57,4 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       - name: Trigger Coolify Deployment
-        run: |
-          curl -H "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
-            -H "CF-Access-Client-Id: ${{ secrets.CLOUDFLARE_ID }}" \
-            -H "CF-Access-Client-Secret: ${{ secrets.CLOUDFLARE_SECRET }}" \
-            "${{ secrets.COOLIFY_URL }}/api/v1/deploy?uuid=${{ secrets.COOLIFY_APP_ID }}&force=false"
+        run: ${{ secrets.COOLIFY_DEPLOY_CURL }}
