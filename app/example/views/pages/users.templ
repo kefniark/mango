@@ -30,7 +30,7 @@ templ users(name string) {
 
     <dialog id="addUserModal">
       <h5>Add User</h5>
-      <form id="addUserModalForm">
+      <form id="addUserModalForm" hx-post="api/Users/set" hx-ext="json-enc">
         <div class="field border fill">
           <input type="hidden" name="id" value="" />
           <input type="text" name="name" value="" />
@@ -40,19 +40,17 @@ templ users(name string) {
           <input type="text" name="bio" value="" />
           <span class="helper">Bio of the new user</span>
         </div>
-      </form>
 
-      <nav class="right-align no-space" style="gap: 5px">
-        <button class="border" data-ui="#addUserModal">Cancel</button>
-        <button
-          class="primary"
-          id="addUserButton"
-          data-ui="#addUserModal"
-          hx-include="#addUserModalForm"  
-          hx-post="api/Users/set"
-          hx-ext="json-enc"
-        >Create</button>
-      </nav>
+        <nav class="right-align no-space" style="gap: 5px">
+          <button class="border" data-ui="#addUserModal">Cancel</button>
+          <button
+            type="submit"
+            class="primary"
+            id="addUserButton"
+            data-ui="#addUserModal"
+          >Create</button>
+        </nav>
+      </form>
     </dialog>
   }
 }

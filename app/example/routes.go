@@ -8,9 +8,9 @@ import (
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/kefniark/mango/app/example/codegen/api/apiconnect"
 
 	"github.com/kefniark/mango/app/example/api/handlers"
+	"github.com/kefniark/mango/app/example/codegen/api/apiconnect"
 	"github.com/kefniark/mango/app/example/config"
 	_ "github.com/kefniark/mango/app/example/views/pages"
 )

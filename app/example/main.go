@@ -16,6 +16,7 @@ import (
 	"golang.org/x/net/http2"
 	"golang.org/x/net/http2/h2c"
 
+	"github.com/newrelic/go-agent/v3/integrations/logcontext-v2/zerologWriter"
 	"github.com/newrelic/go-agent/v3/newrelic"
 )
 
@@ -26,13 +27,13 @@ func main() {
 	if port, ok := os.LookupEnv("PORT"); ok {
 		addr = fmt.Sprintf(":%s", port)
 	}
-	logger, db := newServerOptions()
+
+	nr := setupNewrelic()
+	logger, db := newServerOptions(nr)
 	logger.Debug().Msg("Initialize Server")
 
 	// Router
 	r := chi.NewRouter()
-
-	setupNewrelic(r)
 
 	// Build Default Context (DB, Logger)
 	r.Use(func(h http.Handler) http.Handler {
@@ -43,6 +44,7 @@ func main() {
 		})
 	})
 
+	registerNewRelicMiddlewares(r, nr)
 	registerMiddlewares(r)
 	registerAPIRoutes(r)
 	registerStaticFilesRoutes(r)
@@ -61,8 +63,8 @@ func main() {
 	}
 }
 
-func newServerOptions() (*zerolog.Logger, *database.Queries) {
-	logger := newLogger()
+func newServerOptions(nr *newrelic.Application) (*zerolog.Logger, *database.Queries) {
+	logger := newLogger(nr)
 
 	dbClient, err := db.New()
 	if err != nil {
@@ -88,43 +90,41 @@ func newServerOptions() (*zerolog.Logger, *database.Queries) {
 	return logger, dbClient.Client()
 }
 
-func newLogger() *zerolog.Logger {
+func newLogger(nr *newrelic.Application) *zerolog.Logger {
 	// Pretty Stdout for development
 	if config.IsDev() {
-		logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stderr}).Level(zerolog.DebugLevel)
+		logger := zerolog.New(zerolog.ConsoleWriter{Out: os.Stdout}).Level(zerolog.DebugLevel)
 		return &logger
 	}
 
 	// Structured JSON Logger for production
-	logger := zerolog.New(os.Stdout).Level(zerolog.InfoLevel).With().Timestamp().Caller().Stack().Logger()
+	writer := zerologWriter.New(os.Stdout, nr)
+	logger := zerolog.New(writer).Level(zerolog.InfoLevel).With().Timestamp().Caller().Stack().Logger()
 	return &logger
 }
 
-func setupNewrelic(r *chi.Mux) {
+func setupNewrelic() *newrelic.Application {
 	key := os.Getenv("NEW_RELIC_LICENSE_KEY")
 	if key == "" {
-		return
-	}
-	app, err := newrelic.NewApplication(
-		newrelic.ConfigAppName("Mango"),
-		newrelic.ConfigLicense(key),
-		newrelic.ConfigAppLogEnabled(true),
-		newrelic.ConfigAppLogForwardingEnabled(true),
-		newrelic.ConfigAppLogMetricsEnabled(true),
-		newrelic.ConfigDistributedTracerEnabled(true),
-		newrelic.ConfigModuleDependencyMetricsEnabled(true),
-	)
-	if err != nil {
-		panic(err)
+		return nil
 	}
 
+	app, _ := newrelic.NewApplication(
+		newrelic.ConfigFromEnvironment(),
+		newrelic.ConfigAppName("Mango"),
+		newrelic.ConfigLicense(key),
+		newrelic.ConfigAppLogForwardingEnabled(true),
+	)
+	return app
+}
+
+func registerNewRelicMiddlewares(r *chi.Mux, app *newrelic.Application) {
 	r.Use(func(next http.Handler) http.Handler {
 		fn := func(w http.ResponseWriter, r *http.Request) {
 			txn := app.StartTransaction(r.Method + r.URL.RequestURI())
 			defer txn.End()
 
 			txn.SetWebRequestHTTP(r)
-
 			w = txn.SetWebResponse(w)
 			r = newrelic.RequestWithTransactionContext(r, txn)
 
