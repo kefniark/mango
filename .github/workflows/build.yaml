@@ -45,8 +45,8 @@ jobs:
       - name: Build the project
         shell: devenv shell bash -- -e {0}
         run: |
-          mango generate
-          mango build
+          mango generate --filter app/example
+          mango build --filter app/example
       - name: Build and push Docker image
         id: push
         uses: docker/build-push-action@v5

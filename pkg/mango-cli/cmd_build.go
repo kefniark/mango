@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"path"
+	"path/filepath"
 
 	"github.com/kefniark/mango/pkg/mango-cli/config"
 	"github.com/spf13/cobra"
@@ -39,15 +40,17 @@ func buildCmd(cfg *config.Config) *cobra.Command {
 				for _, platform := range cfg.Build.Platforms {
 					os.MkdirAll(path.Join("dist", name), os.ModePerm)
 
+					filename := filepath.Base(name)
+
 					cmd := exec.Command(
 						"env", fmt.Sprintf("GOOS=%s", platform.Os), fmt.Sprintf("GOARCH=%s", platform.Arch), "CGOENABLED=0",
-						"go", "build", "-ldflags", "-s -w", "-o", path.Join("dist", name, fmt.Sprintf("%s-%s-%s", name, platform.Os, platform.Arch)), fmt.Sprintf("./%s", name))
+						"go", "build", "-ldflags", "-s -w", "-o", path.Join("dist", name, fmt.Sprintf("%s-%s-%s", filename, platform.Os, platform.Arch)), fmt.Sprintf("./%s", name))
 					cmd.Stdout = os.Stdout
 					cmd.Stderr = os.Stderr
 					if err := cmd.Run(); err != nil {
 						config.Logger.Error().Err(err).Str("app", name).Msg("Build failed")
 					} else {
-						config.Logger.Info().Str("app", name).Str("file", path.Join("dist", name, fmt.Sprintf("%s-%s-%s", name, platform.Os, platform.Arch))).Msg("Build Succeed")
+						config.Logger.Info().Str("app", name).Str("file", path.Join("dist", name, fmt.Sprintf("%s-%s-%s", filename, platform.Os, platform.Arch))).Msg("Build Succeed")
 					}
 				}
 			}

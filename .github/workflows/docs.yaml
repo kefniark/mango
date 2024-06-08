@@ -46,8 +46,8 @@ jobs:
         shell: devenv shell bash -- -e {0}
         run: |
           export BASE_URL="https://kefniark.github.io/mango/"
-          mango generate --filter docs
-          mango build --filter docs
+          mango generate --filter app/docs
+          mango build --filter app/docs
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
