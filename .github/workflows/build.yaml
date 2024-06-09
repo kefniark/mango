@@ -1,11 +1,16 @@
-name: Create and publish a Docker image
+name: Create and Publish a Docker image
 on:
   push:
-    branches: ["master"]
+    branches: ["release"]
+  workflow_dispatch:
 
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+
+concurrency:
+  group: "docker"
+  cancel-in-progress: false
 
 jobs:
   build-and-push-image:

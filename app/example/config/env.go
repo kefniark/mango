@@ -45,7 +45,7 @@ func AppPublicAddr() string {
 	}
 
 	if proxy != "" {
-		return fmt.Sprintf("http://localhost%s -> %s (Proxied)", proxy, app)
+		return fmt.Sprintf("http://localhost:%s -> %s (Dev Reload Proxy)", proxy, app)
 	}
 
 	return app

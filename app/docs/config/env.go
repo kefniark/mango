@@ -38,18 +38,14 @@ func AppAddr() string {
 }
 
 func AppPublicAddr() string {
-	app := ""
+	app := AppAddr()
 	proxy := ""
-
-	if port, ok := os.LookupEnv("PORT"); ok {
-		app = port
-	}
 	if port, ok := os.LookupEnv("PROXY_PORT"); ok {
 		proxy = port
 	}
 
 	if proxy != "" {
-		return fmt.Sprintf("%s -> %s (Proxied)", proxy, app)
+		return fmt.Sprintf("http://localhost:%s -> %s (Dev Reload Proxy)", proxy, app)
 	}
 
 	return app

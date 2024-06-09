@@ -1,38 +1,59 @@
 package layout
 
 templ header() {
-    <header>
-      <nav class="top primary blur" style="background: #dbc90add !important;">
-        <div style="margin-right: auto">
-          <a href="./">
-            <img src="assets/favicon.png" height="48"/>
-            <span style="text-transform: uppercase; font-weight: bold; font-family: sans-serif; font-size: x-large; margin-left: 10px;">
-            Mango
-            </span>
-            <div class="tooltip bottom">I like Mango</div>
-          </a>
-        </div>
-          
-        <div>
-          <a href="./getting-started" class="button small-round large transparent">
-            <span>Getting Started</span>
-            <div class="tooltip bottom">How to start using Mango</div>
-          </a>
-
-          <a href="./docs" class="button small-round large transparent">
-            <span>Docs</span>
-            <div class="tooltip bottom">Documentation & Framework Explanation</div>
-          </a>
-
-          <a href="./examples" class="button small-round large transparent">
-            <span>Example</span>
-            <div class="tooltip bottom">See Mango in action</div>
-          </a>
-
-          <a href="./about" class="button small-round large transparent">
-            <span>About</span>
-          </a>
-        </div>
-      </nav>
-  </header>
+  <nav style="padding: 0 20px">
+    <ul>
+      <li>
+        <a
+          href="./"
+          class="contrast"
+          data-tooltip="I like Mango"
+          data-placement="bottom"
+        >
+          <img src="assets/favicon.png" height="48" style="max-height: 48px;"/>
+          <span style="text-transform: uppercase; font-weight: bold; font-family: sans-serif; font-size: x-large; margin-left: 10px;">
+          Mango
+          </span>
+        </a>
+      </li>
+    </ul>
+       
+    <ul>
+      <li>
+        <a
+          href="./getting-started"
+          class="contrast"
+          data-tooltip="How to start using Mango"
+          data-placement="bottom"
+        >
+          Getting Started
+        </a>
+      </li>
+      <li>
+        <a
+          href="./docs"
+          class="contrast"
+          data-tooltip="Documentation & Framework Explanation"
+          data-placement="bottom"
+        >
+          Docs
+        </a>
+      </li>
+      <li>
+        <a
+          href="./examples"
+          class="contrast"
+          data-tooltip="See Mango in action"
+          data-placement="bottom"
+        >
+          Examples
+        </a>
+      </li>
+      <li>
+        <a href="./about" class="contrast">
+          About
+        </a>
+      </li>
+    </ul>
+  </nav>
 }

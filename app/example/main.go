@@ -23,10 +23,7 @@ import (
 const defaultTimeout = 5 * time.Second
 
 func main() {
-	addr := ":5600"
-	if port, ok := os.LookupEnv("PORT"); ok {
-		addr = fmt.Sprintf(":%s", port)
-	}
+	addr := config.AppAddr()
 
 	nr := setupNewrelic()
 	logger, db := newServerOptions(nr)

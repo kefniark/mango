@@ -8,11 +8,12 @@ templ AppLayout(name string) {
     <head>
       <meta charset="utf-8"/>
       <meta name="viewport" content="width=device-width, initial-scale=1"/>
+      <meta name="color-scheme" content="light dark" />
+
       @extraMeta()
 
       <!-- Beer CSS-->
-      <link href="https://cdn.jsdelivr.net/npm/beercss@3.5.6/dist/cdn/beer.min.css" rel="stylesheet"/>
-      <script type="module" src="https://cdn.jsdelivr.net/npm/beercss@3.5.6/dist/cdn/beer.min.js"></script>
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.amber.min.css" />
 
       <!-- Project CSS -->
       <link href="assets/css/theme.css" rel="stylesheet"/>
@@ -25,12 +26,20 @@ templ AppLayout(name string) {
       <title>Bootstrap demo</title>
       <link rel="icon" type="image/x-icon" href="assets/favicon.png"/>
     </head>
-    <body style="min-height: 100svh">
-      @header()
+    <body>
+      <header>
+        @header()
+      </header>
 
-      <main class="responsive">
+      <main class="container" style="min-height: calc(100svh - 200px)">
         { children... }
       </main>
+
+      <footer style="display: flex; justify-content: end; padding: 20px;">
+        <nav style="opacity: 0.1; font-size: 60%">
+          Mango @2024
+        </nav>
+      </footer>
     </body>
   </html>
 }
